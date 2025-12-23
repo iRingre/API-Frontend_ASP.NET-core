@@ -1,0 +1,24 @@
+GET http://localhost:5222/todos
+
+###
+
+POST http://localhost:5222/todos
+Content-Type: application/json
+
+{
+    "id": 2,
+    "name": "prova2",
+    "dueDate": "2026-12-25",
+    "isCompleted": true
+}
+
+###
+
+GET http://localhost:5222/todos/2
+
+###
+
+DELETE http://localhost:5222/todos/3
+
+###
+GET http://localhost:5222/tasks/2

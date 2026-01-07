@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components;
 
 namespace FrontEnd.Components.Pages
 {
@@ -21,6 +22,14 @@ namespace FrontEnd.Components.Pages
                 newTodo = "";
             }
 
+        }
+        private void newTodos(ChangeEventArgs args)
+        {
+            newTodo = (string)args.Value;
+        }
+        private void Invio(KeyboardEventArgs e)
+        {
+            if (e.Code == "Enter") todos.Add(new TodoItem { Title = newTodo });
         }
     }
 }

@@ -13,6 +13,6 @@
     }
 </ul>
 
-<input @bind="newTodo"/>
+<input @oninput="newTodos" @onkeydown="Invio"/>
 <button @onclick="CreateTodo">Add Todo</button>
 

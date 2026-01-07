@@ -29,7 +29,15 @@ namespace FrontEnd.Components.Pages
         }
         private void Invio(KeyboardEventArgs e)
         {
-            if (e.Code == "Enter") todos.Add(new TodoItem { Title = newTodo });
+            bool control = true;
+            foreach (var item in todos)
+            {
+                if (item.Title == newTodo)
+                {
+                    control = false;
+                }
+            }
+            if (e.Code == "Enter" && control) todos.Add(new TodoItem { Title = newTodo });
         }
     }
 }

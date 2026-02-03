@@ -1,13 +1,15 @@
 .div-login{
-    height: 90vh;
+    height: 95vh;
     width: 30%;
     gap: 40px;
-    float: right;
+    margin: 0 auto;
     background-color: blue;
     justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
+    border-radius: 15px;
+    border: 2px solid grey;
 }
 
 .inputs-login{

@@ -71,16 +71,12 @@ app.Run();
 //record per oggetti Todo
 public record Todo(int Id, string Name, DateTime DueDate, bool IsCompleted);
 
-
 //interfaccia per injection dependency
 interface ITaskService
 {
    Todo ? GetTodoById(int id);
-
    List<Todo> GetTodos();
-
    void DeleteTodoBody(int id);
-
    Todo AddTodo(Todo task);
 }
 

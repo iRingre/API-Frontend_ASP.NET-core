@@ -48,6 +48,6 @@
                 control = false;
             }
         }
-        if (e.Code == "Enter" && control) todos.Add(new TodoItem { Title = newTodo });
+        if (e.Code == "Enter" && control && !string.IsNullOrEmpty(newTodo)) todos.Add(new TodoItem { Title = newTodo });
     }
 }

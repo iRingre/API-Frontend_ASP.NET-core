@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavManager
 <div class="page">
-    @if (!(NavManager.ToBaseRelativePath(NavManager.Uri) == "login")){
+    @if (!(NavManager.ToBaseRelativePath(NavManager.Uri) == "login" ) && !(NavManager.ToBaseRelativePath(NavManager.Uri) == "")){
         <div class="sidebar">
             <NavMenu />
         </div>

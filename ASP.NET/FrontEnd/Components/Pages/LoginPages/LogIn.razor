@@ -1,6 +1,8 @@
 @page "/login"
 @layout Layout.MainLayout
 @rendermode InteractiveServer
+@inject Authentication Auth
+@inject NavigationManager Nav
 <PageTitle>Login</PageTitle>
 
 <a href="/home">prova</a>
@@ -16,17 +18,22 @@
     <div class="inputs-login">
         <input @bind="nome" @bind:event="oninput" type="text" placeholder="Nome Utente">
         <input @bind="password" @bind:event="oninput" type="password" placeholder="password">
-        <button>Accedi</button>
+        <button @onclick="DoLogin">Accedi</button>
+        <p>@warning</p>
     </div>
 </div>
 
 @code{
     string password="";
     string nome="";
-    private class Log{
-        
+    string warning ="";
+    private async void DoLogin(){
+        var ok = await Auth.LoginAsync(nome, password);
 
+        if (ok)
+            Nav.NavigateTo("/home");
+        else
+            warning = "Username o Password sbagliati";
     }
-    //private void SetPassword(ChangeEventArgs args) => password = (string)args.Value;
 }
 

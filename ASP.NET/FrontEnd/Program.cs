@@ -3,8 +3,8 @@ using FrontEnd.Components;
 var builder = WebApplication.CreateBuilder(args);//crea la web application
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+builder.Services.AddScoped<Authentication>();
 
 var app = builder.Build();
 

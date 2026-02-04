@@ -1,5 +1,6 @@
 @page "/login"
 @layout Layout.MainLayout
+@rendermode InteractiveServer
 <PageTitle>Login</PageTitle>
 
 <a href="/home">prova</a>
@@ -13,13 +14,19 @@
         <p>Questo è un piccolo gestionale creato Interamente da un singolo sviluppatore Leonardo Ringressi, spero diventi qualcosa di utile</p>
     </div>
     <div class="inputs-login">
-        <input type="text" placeholder="Nome Utente">
-        <input type="password" placeholder="password">
+        <input @bind="nome" @bind:event="oninput" type="text" placeholder="Nome Utente">
+        <input @bind="password" @bind:event="oninput" type="password" placeholder="password">
+        <button>Accedi</button>
     </div>
 </div>
 
 @code{
-    private class Log{ 
+    string password="";
+    string nome="";
+    private class Log{
+        
+
     }
+    //private void SetPassword(ChangeEventArgs args) => password = (string)args.Value;
 }
 

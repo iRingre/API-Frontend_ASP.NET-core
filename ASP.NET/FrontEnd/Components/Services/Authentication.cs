@@ -1,8 +1,16 @@
 using FirebirdSql.Data.FirebirdClient;
+using System.Security.Claims; 
+using Microsoft.AspNetCore.Authentication; 
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 public class Authentication
 {
 
+    private readonly IHttpContextAccessor _http; 
+    public Authentication(IHttpContextAccessor http) 
+    { 
+        _http = http; 
+    }
     //Per usare questa tipologia di servizio va Installato Firebird server 4.0
     string connectionString = new FbConnectionStringBuilder
     {
@@ -28,8 +36,33 @@ public class Authentication
         cmd.Parameters.AddWithValue("@p", password);
     
         var result = await cmd.ExecuteScalarAsync();
-        if(result!=null && (Int64)result>(Int64)0)return true;
+        if(result!=null && (Int64)result>(Int64)0){
+            await CreateSession(username);
+            return true;
+        }
         return false;
+        
+    }
+
+    public async Task CreateSession(string username) 
+    { 
+        var claims = new List<Claim> 
+        { 
+            new Claim(ClaimTypes.Name, username) 
+        }; 
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme); 
+        var principal = new ClaimsPrincipal(identity); 
+        await _http.HttpContext!.SignInAsync( 
+            CookieAuthenticationDefaults.AuthenticationScheme, 
+            principal, 
+            new AuthenticationProperties 
+            { 
+                IsPersistent = true, ExpiresUtc = DateTime.UtcNow.AddMinutes(30) 
+            }); 
+    }
+    public async Task LogoutAsync() 
+    { 
+        await _http.HttpContext!.SignOutAsync(); 
     }
 
 

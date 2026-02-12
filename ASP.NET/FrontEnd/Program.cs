@@ -8,17 +8,25 @@ var builder = WebApplication.CreateBuilder(args);//crea la web application
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddScoped<Authentication>();
 
+builder.Services.AddHttpClient("server", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5050");
+});//metti client in forma di http così da fare delle chiamate api tramite http
+
+
 //servizi per autentication tramite cookie e management delle sessioni
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(options =>
 {
     options.Cookie.Name = "authToken";
-    options.LoginPath = "/login";
+    options.LoginPath = "/";
     options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
-    options.AccessDeniedPath = "/login";
+    options.AccessDeniedPath = "/";
 });
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<Authentication>();
 /*------------------------------------------------------------------------------------------*/
 
 
@@ -44,4 +52,18 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+//Creazione di un modello e di in api basata su di esso per il login 
+app.MapPost("/api/login", async (HttpContext ctx, Authentication auth, LoginModel model) =>
+{
+    var ok = await auth.LoginAsync(model.Username, model.Password);
+    if (!ok)
+        return Results.Unauthorized();
+
+    await auth.CreateSession(model.Username);
+    return Results.Ok();
+});
+
+
 app.Run();
+
+public record LoginModel(string Username, string Password);

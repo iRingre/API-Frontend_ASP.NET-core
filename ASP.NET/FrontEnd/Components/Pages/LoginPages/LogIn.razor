@@ -3,6 +3,7 @@
 @rendermode InteractiveServer
 @inject Authentication Auth
 @inject NavigationManager Nav
+@inject HttpClient Http
 <PageTitle>Login</PageTitle>
 
 <div class="login-background"></div>
@@ -26,11 +27,12 @@
     string password="";
     string nome="";
     string warning ="";
-    private async Task DoLogin(){
-        var ok = await Auth.LoginAsync(nome, password);
+    private async Task DoLogin()
+    {
+        var response = await Http.PostAsJsonAsync("/api/login", new { Username = nome, Password = password });
 
-        if (ok)
-            Nav.NavigateTo("/home");
+        if (response.IsSuccessStatusCode)
+            Nav.NavigateTo("/home", true); // forza reload → cookie attivo
         else
             warning = "Username o Password sbagliati";
     }

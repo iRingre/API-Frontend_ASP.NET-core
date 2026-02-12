@@ -8,10 +8,7 @@ var builder = WebApplication.CreateBuilder(args);//crea la web application
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddScoped<Authentication>();
 
-builder.Services.AddHttpClient("server", client =>
-{
-    client.BaseAddress = new Uri("http://localhost:5050");
-});//metti client in forma di http così da fare delle chiamate api tramite http
+builder.Services.AddHttpClient();//metti client in forma di http così da fare delle chiamate api tramite http
 
 
 //servizi per autentication tramite cookie e management delle sessioni
@@ -56,7 +53,7 @@ app.MapRazorComponents<App>()
 app.MapPost("/api/login", async (HttpContext ctx, Authentication auth, LoginModel model) =>
 {
     var ok = await auth.LoginAsync(model.Username, model.Password);
-    if (!ok)
+    if (ok==false)
         return Results.Unauthorized();
 
     await auth.CreateSession(model.Username);

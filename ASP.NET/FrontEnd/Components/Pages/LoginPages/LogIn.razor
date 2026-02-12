@@ -29,12 +29,16 @@
     string warning ="";
     private async Task DoLogin()
     {
-        var response = await Http.PostAsJsonAsync("/api/login", new { Username = nome, Password = password });
+        var response = await Http.PostAsJsonAsync("http://localhost:5050/api/login", new { Username = nome, Password = password });
 
         if (response.IsSuccessStatusCode)
             Nav.NavigateTo("/home", true); // forza reload → cookie attivo
-        else
+        else{
             warning = "Username o Password sbagliati";
+            nome = "";
+            password = "";
+        }
+            
     }
 }
 

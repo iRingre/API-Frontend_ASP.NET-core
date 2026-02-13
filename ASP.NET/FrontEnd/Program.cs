@@ -53,18 +53,23 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-//Creazione di un record e di un api basata su di esso per il login 
-app.MapPost("/api/login", async (HttpContext ctx, Authentication auth, LoginModel model) =>
+app.MapPost("/api/login", async (HttpContext ctx, Authentication auth) =>
 {
-    var ok = await auth.LoginAsync(model.Username, model.Password);
-    if (ok==false)
-        return Results.Unauthorized();
+    var form = await ctx.Request.ReadFormAsync();
+    var username = form["Username"];
+    var password = form["Password"];
 
-    await auth.CreateSession(model.Username);
-    return Results.Ok();
+    var ok = await auth.LoginAsync(username!, password!);
+
+    if (!ok)
+        return Results.Redirect("/login?error=1");
+
+    await auth.CreateSession(username!);
+
+    return Results.Redirect("/home");
 });
+
 
 
 app.Run();
 
-public record LoginModel(string Username, string Password);

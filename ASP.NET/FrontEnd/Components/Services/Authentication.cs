@@ -44,23 +44,23 @@ public class Authentication
     }
 
     public async Task CreateSession(string username) 
-{ 
-    var claims = new List<Claim> 
     { 
-        new Claim(ClaimTypes.Name, username) 
-    }; 
-    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme); 
-    var principal = new ClaimsPrincipal(identity); 
-
-    await _http.HttpContext!.SignInAsync( 
-        CookieAuthenticationDefaults.AuthenticationScheme, 
-        principal, 
-        new AuthenticationProperties 
+        var claims = new List<Claim> 
         { 
-            IsPersistent = true, 
-            ExpiresUtc = DateTime.UtcNow.AddMinutes(30) 
-        }); 
-}
+            new Claim(ClaimTypes.Name, username) 
+        }; 
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme); 
+        var principal = new ClaimsPrincipal(identity); 
+
+        await _http.HttpContext!.SignInAsync( 
+            CookieAuthenticationDefaults.AuthenticationScheme, 
+            principal, 
+            new AuthenticationProperties 
+            { 
+                IsPersistent = true, 
+                ExpiresUtc = DateTime.UtcNow.AddMinutes(30) 
+            }); 
+    }
 
     public async Task LogoutAsync() 
     { 

@@ -3,7 +3,6 @@
 @rendermode InteractiveServer
 @inject Authentication Auth
 @inject NavigationManager Nav
-@inject HttpClient Http
 <PageTitle>Login</PageTitle>
 
 <div class="login-background"></div>
@@ -16,9 +15,11 @@
         <p>Questo è un piccolo gestionale creato Interamente da un singolo sviluppatore Leonardo Ringressi, spero diventi qualcosa di utile</p>
     </div>
     <div class="inputs-login">
-        <input @bind="nome" @bind:event="oninput" type="text" placeholder="Nome Utente">
-        <input @bind="password" @bind:event="oninput" type="password" placeholder="password">
-        <button @onclick="DoLogin">Accedi</button>
+        <form method="post" action="/api/login">
+            <input name="Username" type="text" placeholder="Nome Utente" />
+            <input name="Password" type="password" placeholder="Password" />
+            <button type="submit">Accedi</button>
+        </form>
         <p>@warning</p>
     </div>
 </div>
@@ -28,17 +29,21 @@
     string nome="";
     string warning ="";
     private async Task DoLogin()
-    {
-        var response = await Http.PostAsJsonAsync("https://localhost:7257/api/login", new { Username = nome, Password = password });
+{
+    var ok = await Auth.LoginAsync(nome, password);
 
-        if (response.IsSuccessStatusCode)
-            Nav.NavigateTo("/home"); // forza reload → cookie attivo
-        else{
-            warning = "Username o Password sbagliati";
-            nome = "";
-            password = "";
-        }
-            
+    if (ok)
+    {
+        await Auth.CreateSession(nome);
+        Nav.NavigateTo("/home", true); // reload completo
     }
+    else
+    {
+        warning = "Username o Password sbagliati";
+        nome = "";
+        password = "";
+    }
+}
+
 }
 

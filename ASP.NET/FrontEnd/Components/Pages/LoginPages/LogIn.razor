@@ -32,7 +32,7 @@
         var response = await Http.PostAsJsonAsync("http://localhost:5050/api/login", new { Username = nome, Password = password });
 
         if (response.IsSuccessStatusCode)
-            Nav.NavigateTo("/home", true); // forza reload → cookie attivo
+            Nav.NavigateTo("/home"); // forza reload → cookie attivo
         else{
             warning = "Username o Password sbagliati";
             nome = "";

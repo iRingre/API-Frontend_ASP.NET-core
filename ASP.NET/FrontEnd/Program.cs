@@ -16,14 +16,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 .AddCookie(options =>
 {
     options.Cookie.Name = "authToken";
-    options.LoginPath = "/";
+    options.LoginPath = "/login";
     options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
-    options.AccessDeniedPath = "/";
+    options.AccessDeniedPath = "/login";
+    options.Cookie.SameSite = SameSiteMode.Lax; 
+    options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+    options.SlidingExpiration = true;
 });
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<Authentication>();
 /*------------------------------------------------------------------------------------------*/
 
 
@@ -39,6 +41,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCookiePolicy();
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -49,7 +54,7 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-//Creazione di un modello e di in api basata su di esso per il login 
+//Creazione di un record e di un api basata su di esso per il login 
 app.MapPost("/api/login", async (HttpContext ctx, Authentication auth, LoginModel model) =>
 {
     var ok = await auth.LoginAsync(model.Username, model.Password);

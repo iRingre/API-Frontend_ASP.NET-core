@@ -37,8 +37,6 @@ public class Authentication
     
         var result = await cmd.ExecuteScalarAsync();
         if(result!=null && (Int64)result>(Int64)0){
-            await CreateSession(username);
-            Console.WriteLine("la sessione ha utente: "+result);
             return true;
         }
         return false;

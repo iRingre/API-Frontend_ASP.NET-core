@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);//crea la web application
 
 // Add services to the container.
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
-builder.Services.AddScoped<Authentication>();
+builder.Services.AddTransient<Authentication>();
+
 
 builder.Services.AddHttpClient();//metti client in forma di http così da fare delle chiamate api tramite http
 
@@ -19,9 +20,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.LoginPath = "/login";
     options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
     options.AccessDeniedPath = "/login";
-    options.Cookie.SameSite = SameSiteMode.Lax; 
-    options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.SlidingExpiration = true;
+
 });
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
@@ -41,14 +43,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCookiePolicy();
-
-
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.UseAntiforgery();
+
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()

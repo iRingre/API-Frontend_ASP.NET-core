@@ -56,6 +56,7 @@
     border-radius: 10px;
     font-size: 16px;
     transition: 0.2s ease;
+    margin-top: 2px;
 }
 
 .inputs-login input:focus {
@@ -73,6 +74,7 @@
     transition: 0.2s ease;
     color: white;
     background-color: #023C56;
+    margin-top: 5px;
 }
 
 

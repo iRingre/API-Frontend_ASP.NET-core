@@ -2,7 +2,7 @@
 @inherits LayoutComponentBase
 @inject NavigationManager NavManager
 <div class="page">
-    @if (!(NavManager.ToBaseRelativePath(NavManager.Uri) == "login" ) && !(NavManager.ToBaseRelativePath(NavManager.Uri) == "")){
+    @if (!IsLoginPage && !(NavManager.ToBaseRelativePath(NavManager.Uri) == "")){
         <div class="sidebar">
             <NavMenu />
         </div>
@@ -25,3 +25,8 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    private bool IsLoginPage =>
+        NavManager.Uri.Contains("/login", StringComparison.OrdinalIgnoreCase);
+}

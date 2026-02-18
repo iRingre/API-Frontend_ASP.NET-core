@@ -1,5 +1,7 @@
 @page "/todo"
 @rendermode InteractiveServer
+@attribute [Authorize]
+
 <PageTitle>todo</PageTitle>
 
 <h3>Todo (@todos.Count(t => !t.IsDone))</h3>

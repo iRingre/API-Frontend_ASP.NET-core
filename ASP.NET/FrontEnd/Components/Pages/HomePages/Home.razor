@@ -1,0 +1,42 @@
+﻿@page "/home"
+@attribute [Authorize]
+
+@inject AuthenticationStateProvider AuthStateProvider
+
+<PageTitle>Home</PageTitle>
+
+<div class="home-background"></div>
+
+<div class="div-home">
+    <div class="home-logo">
+        <img src="/images/Logo.png" />
+    </div>
+
+    <h2 class="home-title">Benvenuto @Username</h2>
+
+    <div class="home-box">
+        <p>Questa è la tua dashboard personale. Da qui puoi accedere alle varie sezioni del gestionale.</p>
+
+        <button class="home-button" @onclick="VaiAClienti">Gestione Clienti</button>
+        <button class="home-button" @onclick="VaiAOrdini">Gestione Ordini</button>
+        <button class="home-button" @onclick="VaiAImpostazioni">Impostazioni</button>
+    </div>
+</div>
+
+@code {
+    private string? Username;
+    private string? Ruolo;
+    private string? IdUtente;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = state.User;
+
+        Username = user.Identity?.Name;
+    }
+
+    void VaiAClienti() => Console.WriteLine("Vai a clienti");
+    void VaiAOrdini() => Console.WriteLine("Vai a ordini");
+    void VaiAImpostazioni() => Console.WriteLine("Vai a impostazioni");
+}

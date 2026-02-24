@@ -1,0 +1,82 @@
+/* SFONDO ANIMATO COME LOGIN */
+.home-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #4498be, #081fa1, #08a59d, #03c5c5);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+    z-index: -1;
+}
+
+/* CONTENITORE PRINCIPALE */
+.div-home {
+    height: 95vh;
+    width: 40%;
+    min-width: 350px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    background-color: #023C56;
+    border-radius: 18px;
+    border: 2px solid rgba(255,255,255,0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    position: relative;
+    z-index: 1;
+}
+
+/* LOGO */
+.home-logo img {
+    width: 180px;
+    height: auto;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
+/* TITOLI */
+.home-title {
+    color: white;
+    font-size: 26px;
+    margin-top: 10px;
+}
+
+.home-subtitle {
+    color: #e0e0e0;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* BOX CENTRALE */
+.home-box {
+    width: 90%;
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid #dcdcdc;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+}
+
+/* BOTTONI */
+.home-button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #b5b5b5;
+    background-color: #023C56;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.home-button:hover {
+    background-color: #03577d;
+}

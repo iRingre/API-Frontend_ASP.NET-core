@@ -40,7 +40,6 @@ public class Authentication
             return true;
         }
         return false;
-        
     }
 
     public async Task CreateSession(string username) 
@@ -66,6 +65,4 @@ public class Authentication
     { 
         await _http.HttpContext!.SignOutAsync(); 
     }
-
-
 }

@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);//crea la web application
 
 // Add services to the container.
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
-builder.Services.AddTransient<Authentication>();
+builder.Services.AddScoped<Authentication>();
 
 
 builder.Services.AddHttpClient();//metti client in forma di http così da fare delle chiamate api tramite http
@@ -18,6 +18,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 {
     options.Cookie.Name = "authToken";
     options.LoginPath = "/login";
+    options.LogoutPath = "/logout";
     options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
     options.AccessDeniedPath = "/login";
     options.Cookie.SameSite = SameSiteMode.None;

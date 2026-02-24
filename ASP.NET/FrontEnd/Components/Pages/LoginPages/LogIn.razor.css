@@ -77,6 +77,9 @@
     margin-top: 5px;
 }
 
+.inputs-login button:hover{
+    background-color: #045e88;
+}
 
 /* SFONDO ANIMATO PER LA PAGINA LOGIN */
 .login-background {

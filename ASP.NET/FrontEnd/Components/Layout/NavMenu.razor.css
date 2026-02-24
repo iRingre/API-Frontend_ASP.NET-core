@@ -103,3 +103,20 @@
         overflow-y: auto;
     }
 }
+
+/* BOTTONI */
+.logout-button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #222222;
+    background-color: #03577d;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.logout-button:hover {
+    background-color: #033d58;
+}

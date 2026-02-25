@@ -1,7 +1,8 @@
 ﻿@page "/home"
 @attribute [Authorize]
-
+@rendermode InteractiveServer
 @inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Nav
 
 <PageTitle>Home</PageTitle>
 
@@ -34,7 +35,7 @@
         Username = user.Identity.Name;
     }
 
-    public void VaiAClienti() => Console.WriteLine("Vai a clienti");
-    public void VaiAOrdini() => Console.WriteLine("Vai a ordini");
-    public void VaiAImpostazioni() => Console.WriteLine("Vai a impostazioni");
+    void VaiAClienti() => Console.WriteLine("Vai a clienti");
+    void VaiAOrdini() => Console.WriteLine("Vai a ordini");
+    void VaiAImpostazioni() => Nav.NavigateTo("/todo", true);
 }

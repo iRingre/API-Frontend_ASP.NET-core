@@ -32,7 +32,7 @@
         var state = await AuthStateProvider.GetAuthenticationStateAsync();
         var user = state.User;
 
-        Username = user.Identity.Name;
+        Username = user.Identity!.Name!;
     }
 
     void VaiAClienti() => Console.WriteLine("Vai a clienti");

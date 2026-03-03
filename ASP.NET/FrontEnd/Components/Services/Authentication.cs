@@ -31,8 +31,10 @@ public class Authentication
     
         var result = await cmd.ExecuteScalarAsync();
         if(result!=null && (Int64)result>(Int64)0){
+            await con.CloseAsync();
             return true;
         }
+        await con.CloseAsync();
         return false;
     }
 

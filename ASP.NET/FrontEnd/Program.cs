@@ -10,8 +10,14 @@ builder.Services.AddScoped<Authentication>();
 
 
 builder.Services.AddHttpClient();//metti client in forma di http così da fare delle chiamate api tramite http
+/*-------------------------------------------------------------------*/
+//Firebird
+builder.Services.Configure<FirebirdConfig>(
+    builder.Configuration.GetSection("FirebirdConfig"));
 
+builder.Services.AddSingleton<FirebirdConnectionProvider>();
 
+/*-------------------------------------------------------------------*/
 //servizi per autentication tramite cookie e management delle sessioni
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(options =>
@@ -77,6 +83,10 @@ app.MapPost("/api/logout", async (HttpContext ctx, Authentication auth) =>
     return Results.Redirect("/login");
 });
 
+app.MapPost("api/tickets", async (Tickets tk) =>
+{
+    
+});
+
 
 app.Run();
-

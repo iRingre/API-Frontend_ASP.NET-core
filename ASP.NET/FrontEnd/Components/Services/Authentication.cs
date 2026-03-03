@@ -7,23 +7,17 @@ public class Authentication
 {
 
     private readonly IHttpContextAccessor _http; 
-    public Authentication(IHttpContextAccessor http) 
+    private readonly FirebirdConnectionProvider _provider;
+    public Authentication(IHttpContextAccessor http, FirebirdConnectionProvider provider) 
     { 
-        _http = http; 
+        _http = http;
+        _provider = provider; 
     }
     //Per usare questa tipologia di servizio va Installato Firebird server 4.0
-    string connectionString = new FbConnectionStringBuilder
-    {
-        Database = @"C:\Users\Utente\Desktop\Nuova cartella\API-Frontend_ASP.NET-core\ASP.NET\FrontEnd\Components\DB\GESTIONALE.FDB",
-        UserID = "SYSDBA",
-        Password = "masterkey",
-        ServerType = FbServerType.Default,
-        DataSource = "localhost", 
-        Port = 3050
-    }.ToString();
 
     public async Task<bool> LoginAsync(string username, string password)
     {
+        string connectionString = _provider.GetConnectionString();
         using var con = new FbConnection(connectionString);
         await con.OpenAsync();
     

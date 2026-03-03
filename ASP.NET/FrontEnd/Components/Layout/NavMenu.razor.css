@@ -123,7 +123,8 @@
     background-color: #03577d;
     color: white;
     font-size: 15px;
-    transition: 0.3s ease;
+    transition: 0.3s linear;
+    text-align: center;
 }
 
 .logout-button:hover {

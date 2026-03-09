@@ -26,12 +26,12 @@ public class Tickets
 public class Ticket
 {
     //inserire i datiche rappresentano i singoli ticket
-    private string datiCLiente;
-    private string assegnatario;
-    private string richiedente;
-    private int Lurgenza;
-    private string categoria;
-    private string descrizioneDettagliata;
+    public string datiCLiente {get; set;}
+    public string assegnatario {get; set;}
+    public string richiedente {get; set;}
+    public int Lurgenza {get; set;}
+    public string categoria {get; set;}
+    public string descrizioneDettagliata {get; set;}
 
     public Ticket(string dati, string ass, string ric, int urg, string categ, string desc)
     {

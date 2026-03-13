@@ -18,7 +18,7 @@ public class Tickets
 
         var cmd = new FbCommand();
         List<Ticket> ListOfTickets = new List<Ticket>();
-        ListOfTickets.Add(new Ticket("boia","deh",",","1","si va a letto ?","dehh"));
+        ListOfTickets.Add(new Ticket("Lillo Birillo","Intasato","0001","Problematiche al gabinetto","FANIZZA GROUP","1"));
 
         return ListOfTickets;
     }

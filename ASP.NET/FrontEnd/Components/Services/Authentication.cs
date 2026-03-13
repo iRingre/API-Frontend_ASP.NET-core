@@ -13,7 +13,6 @@ public class Authentication
         _http = http;
         _provider = provider; 
     }
-    //Per usare questa tipologia di servizio va Installato Firebird server 4.0
 
     public async Task<bool> LoginAsync(string username, string password)
     {

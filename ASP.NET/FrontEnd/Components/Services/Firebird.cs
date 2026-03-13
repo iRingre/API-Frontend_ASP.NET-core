@@ -1,7 +1,9 @@
 using FirebirdSql.Data.FirebirdClient;
 using Microsoft.Extensions.Options;
 
-public class FirebirdConfig//classe per creare oggetto che andrà a rappresentare i dati estratti dal json
+//Per usare questa tipologia di servizio va Installato Firebird server 4.0
+
+public class FirebirdConfig
 {
     public string Server { get; set; }
     public int Port { get; set; }

@@ -22,7 +22,7 @@ public class Tickets
         ListOfTickets.Add(new Ticket("Arciduca Spatola Quantistica","in lavorazione","0002","La cache contiene ricordi di vite passate e rifiuta di svuotarsi","MINISTERO DELLE POSATE TEMPORALI","bassa"));
         ListOfTickets.Add(new Ticket("Entità 404 Senza Forma","chiuso","0003","Il server risponde ma sostiene che la realtà non esiste","FONDAZIONE PARADOSSI DIGITALI","media"));
         ListOfTickets.Add(new Ticket("Nonna Antimateria","chiuso","0004","Il microonde ha compilato codice C++ e ora pretende RAM","CUCINA NUCLEARE SPA","media"));
-        ListOfTickets.Add(new Ticket("Profeta del Router Eterno","chiuso","0005","Il router trasmette solo versetti binari sul destino dell'universo","CHIESA DEL PING INFINITO","alta"));
+        ListOfTickets.Add(new Ticket("Profeta del Router Eterno","aperto","0005","Il router trasmette solo versetti binari sul destino dell'universo","CHIESA DEL PING INFINITO","alta"));
 
 
 

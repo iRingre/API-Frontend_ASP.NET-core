@@ -89,7 +89,7 @@
         try 
         {
             Tick = await Http.GetFromJsonAsync<List<Ticket>>("https://localhost:7257/api/tickets");
-            await Task.Delay(1000);
+            //await Task.Delay(200);
             
         }
         finally

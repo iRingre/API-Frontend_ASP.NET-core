@@ -1,6 +1,8 @@
 using FrontEnd.Components;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);//crea la web application
 
@@ -35,6 +37,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<Tickets>();
 /*------------------------------------------------------------------------------------------*/
 
 
@@ -83,10 +87,11 @@ app.MapPost("/api/logout", async (HttpContext ctx, Authentication auth) =>
     return Results.Redirect("/login");
 });
 
-app.MapPost("api/tickets", async (Tickets tk) =>
-{
-    
-});
 
+
+app.MapGet("/api/tickets", async ([FromServices] Tickets tk, HttpContext ctx) =>
+{
+    return await tk.GetAllTickets();
+});
 
 app.Run();

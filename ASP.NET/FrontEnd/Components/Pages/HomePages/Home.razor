@@ -20,6 +20,7 @@
 
         <button class="home-button" @onclick="VaiAClienti">Gestione Clienti</button>
         <button class="home-button" @onclick="VaiAOrdini">Gestione Ordini</button>
+        <button class="home-button" @onclick="VaiTickets">Tickets</button>
         <button class="home-button" @onclick="VaiAImpostazioni">Impostazioni</button>
     </div>
 </div>
@@ -38,4 +39,5 @@
     void VaiAClienti() => Console.WriteLine("Vai a clienti");
     void VaiAOrdini() => Console.WriteLine("Vai a ordini");
     void VaiAImpostazioni() => Nav.NavigateTo("/todo", true);
+    void VaiTickets() => Nav.NavigateTo("/tickets", true);
 }

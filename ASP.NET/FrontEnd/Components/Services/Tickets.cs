@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Text.Json.Serialization;
 using FirebirdSql.Data.FirebirdClient;
 
 public class Tickets
@@ -10,13 +11,14 @@ public class Tickets
      _provider = provider;   
     }
 
-    public async Task<Vector<Ticket>> GetAllTickets()//dovranno essere passati dei criteri di filtraggio alla funzione 
+    public async Task<List<Ticket>> GetAllTickets()//dovranno essere passati dei criteri di filtraggio alla funzione 
     {
         string connString = _provider.GetConnectionString();
         var con = new FbConnection(connString);
 
         var cmd = new FbCommand();
-        Vector<Ticket> ListOfTickets = new Vector<Ticket>();
+        List<Ticket> ListOfTickets = new List<Ticket>();
+        ListOfTickets.Add(new Ticket("boia","deh",",","1","si va a letto ?","dehh"));
 
         return ListOfTickets;
     }
@@ -25,23 +27,27 @@ public class Tickets
 
 public class Ticket
 {
-    //inserire i datiche rappresentano i singoli ticket
-    public string datiCLiente {get; set;}
-    public string assegnatario {get; set;}
-    public string richiedente {get; set;}
-    public int Lurgenza {get; set;}
-    public string categoria {get; set;}
-    public string descrizioneDettagliata {get; set;}
+    public string Assegnatario { get; set; }
+    public string Categoria { get; set; }
+    public string DatiCliente { get; set; }
+    public string DescrizioneDettagliata { get; set; }
+    public string Richiedente { get; set; }
+    public string Urgenza { get; set; }
 
-    public Ticket(string dati, string ass, string ric, int urg, string categ, string desc)
+    [JsonConstructor]
+    public Ticket(
+        string assegnatario,
+        string categoria,
+        string datiCliente,
+        string descrizioneDettagliata,
+        string richiedente,
+        string urgenza)
     {
-        datiCLiente = dati;
-        assegnatario = ass;
-        richiedente = ric;
-        Lurgenza = urg;
-        categoria = categ;
-        descrizioneDettagliata = desc;
+        Assegnatario = assegnatario;
+        Categoria = categoria;
+        DatiCliente = datiCliente;
+        DescrizioneDettagliata = descrizioneDettagliata;
+        Richiedente = richiedente;
+        Urgenza = urgenza;
     }
-
-    
 }

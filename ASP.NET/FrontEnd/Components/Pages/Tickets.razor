@@ -1,0 +1,51 @@
+@page "/tickets"
+@rendermode InteractiveServer
+@using System.Collections
+@inject HttpClient Http
+@attribute [Authorize]
+
+<PageTitle>Tickets</PageTitle>
+
+<button @onclick="@GetAllT">fetch tickets</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Oggetto</th>
+            <th>Stato</th>
+            <th>Priorità</th>
+            <th>Assegnato</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ticket in Tick)
+        {
+            <tr>
+                <td>@ticket.DatiCliente</td>
+                <td>@ticket.Richiedente</td>
+                <td>@ticket.DescrizioneDettagliata</td>
+                <td>@ticket.Categoria</td>
+                <td>@ticket.Urgenza</td>
+                <td>@ticket.Assegnatario</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code{
+    List<Ticket> Tick = new();
+        
+    public async Task GetAllT(){
+        Tick = await Http.GetFromJsonAsync<List<Ticket>>("https://localhost:7257/api/tickets");
+        foreach(var t in Tick){
+            Console.WriteLine(t.Assegnatario);
+            Console.WriteLine(t.Categoria);
+            Console.WriteLine(t.DatiCliente);
+            Console.WriteLine(t.DescrizioneDettagliata);
+            Console.WriteLine(t.Richiedente);
+            Console.WriteLine(t.Urgenza);
+        }
+
+    }
+}

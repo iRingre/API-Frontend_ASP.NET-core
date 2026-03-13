@@ -1,0 +1,122 @@
+@page "/tickets"
+@using System.Collections
+@inject HttpClient Http
+
+@rendermode InteractiveServer
+@attribute [Authorize]
+
+<PageTitle>Tickets</PageTitle>
+
+@* Container principale *@
+<div class="tickets-container">
+    
+    @* Header con titolo e bottone *@
+    <div class="page-header">
+        <h3>Gestione Tickets</h3>
+        <button class="fetch-button" @onclick="@GetAllT">
+            <span>📋</span> Carica Tickets
+        </button>
+    </div>
+
+    @* Tabella tickets *@
+    <div class="table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>ID Ticket</th>
+                    <th>Cliente</th>
+                    <th>Oggetto</th>
+                    <th>Stato</th>
+                    <th>Priorità</th>
+                    <th>Assegnato a</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Tick == null || !Tick.Any())
+                {
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                @if (isLoading)
+                                {
+                                    <div class="loading-state">
+                                        <div class="loading-spinner"></div>
+                                        <span>Caricamento tickets...</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span>Nessun ticket disponibile. Clicca "Carica Tickets" per visualizzarli.</span>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var ticket in Tick)
+                    {
+                        <tr>
+                            <td>@ticket.DatiCliente</td>
+                            <td>@ticket.Richiedente</td>
+                            <td>@ticket.DescrizioneDettagliata</td>
+                            <td>
+                                <span class="status-badge @GetStatusClass(ticket.Categoria)">
+                                    @ticket.Categoria
+                                </span>
+                            </td>
+                            <td>
+                                <span class="priority-badge @GetPriorityClass(ticket.Urgenza)">
+                                    @ticket.Urgenza
+                                </span>
+                            </td>
+                            <td>@ticket.Assegnatario</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    private bool isLoading = false;
+    List<Ticket> Tick = new List<Ticket>();
+    
+    private async Task GetAllT()
+    {
+        isLoading = true;
+        try 
+        {
+            Tick = await Http.GetFromJsonAsync<List<Ticket>>("https://localhost:7257/api/tickets");
+            await Task.Delay(500);
+            
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+    
+    private string GetStatusClass(string status)
+    {
+        return status?.ToLower() switch
+        {
+            "aperto" => "open",
+            "in lavorazione" => "in-progress",
+            "chiuso" => "closed",
+            _ => ""
+        };
+    }
+    
+    private string GetPriorityClass(string priority)
+    {
+        return priority?.ToLower() switch
+        {
+            "alta" => "high",
+            "media" => "medium",
+            "bassa" => "low",
+            _ => ""
+        };
+    }
+}

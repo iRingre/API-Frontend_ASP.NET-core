@@ -13,7 +13,7 @@
     @* Header con titolo e bottone *@
     <div class="page-header">
         <h3>Gestione Tickets</h3>
-        <button class="fetch-button" @onclick="@GetAllT">
+        <button class="fetch-button" @onclick="@OnInitializedAsync">
             <span>📋</span> Carica Tickets
         </button>
     </div>
@@ -83,13 +83,13 @@
     private bool isLoading = false;
     List<Ticket> Tick = new List<Ticket>();
     
-    private async Task GetAllT()
+    protected override async Task OnInitializedAsync()
     {
         isLoading = true;
         try 
         {
             Tick = await Http.GetFromJsonAsync<List<Ticket>>("https://localhost:7257/api/tickets");
-            await Task.Delay(500);
+            await Task.Delay(1000);
             
         }
         finally

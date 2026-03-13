@@ -35,18 +35,9 @@
 </table>
 
 @code{
-    List<Ticket> Tick = new();
+    List<Ticket> Tick = new List<Ticket>();
         
     public async Task GetAllT(){
         Tick = await Http.GetFromJsonAsync<List<Ticket>>("https://localhost:7257/api/tickets");
-        foreach(var t in Tick){
-            Console.WriteLine(t.Assegnatario);
-            Console.WriteLine(t.Categoria);
-            Console.WriteLine(t.DatiCliente);
-            Console.WriteLine(t.DescrizioneDettagliata);
-            Console.WriteLine(t.Richiedente);
-            Console.WriteLine(t.Urgenza);
-        }
-
     }
 }

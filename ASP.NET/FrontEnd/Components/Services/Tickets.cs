@@ -18,7 +18,13 @@ public class Tickets
 
         var cmd = new FbCommand();
         List<Ticket> ListOfTickets = new List<Ticket>();
-        ListOfTickets.Add(new Ticket("Lillo Birillo","Intasato","0001","Problematiche al gabinetto","FANIZZA GROUP","1"));
+        ListOfTickets.Add(new Ticket("Ωmega Pollo Primordiale","Singolarità da scrivania","0001","Il PC ha collassato in un buco nero ogni volta che apro il gestionale","CONSORZIO COSMICO DEL POLLAIO","1"));
+        ListOfTickets.Add(new Ticket("Arciduca Spatola Quantistica","Cache metafisica","0002","La cache contiene ricordi di vite passate e rifiuta di svuotarsi","MINISTERO DELLE POSATE TEMPORALI","1"));
+        ListOfTickets.Add(new Ticket("Entità 404 Senza Forma","Errore ontologico","0003","Il server risponde ma sostiene che la realtà non esiste","FONDAZIONE PARADOSSI DIGITALI","1"));
+        ListOfTickets.Add(new Ticket("Nonna Antimateria","Forno a microchip","0004","Il microonde ha compilato codice C++ e ora pretende RAM","CUCINA NUCLEARE SPA","1"));
+        ListOfTickets.Add(new Ticket("Profeta del Router Eterno","Segnale profetico","0005","Il router trasmette solo versetti binari sul destino dell'universo","CHIESA DEL PING INFINITO","1"));
+
+
 
         return ListOfTickets;
     }

@@ -33,6 +33,7 @@ public class Tickets
         ListOfTickets.Add(new Ticket("Domatore di Container Ribelli","in lavorazione","0013","Docker ha deciso di diventare una religione e chiede fedeli","MONASTERO KUBERNETICO","alta"));
         ListOfTickets.Add(new Ticket("Custode del Firewall Mistico","chiuso","0014","Il firewall blocca i pacchetti perché percepisce cattive vibrazioni","ORDINE ESOTERICO DELLA SICUREZZA","media"));
         ListOfTickets.Add(new Ticket("Viaggiatore della RAM Onirica","aperto","0015","La RAM sogna pecore elettriche e dimentica i processi","ISTITUTO PSICANALITICO DELL'HARDWARE","bassa"));
+        ListOfTickets.Add(new Ticket("Strongest soldier","aperto","0016","Ḯ̷̗̱̥̩̯̜̩̙̘͙̙̙̰̐̏͌͂̑̈́̈́̚͜͠͝a̷̢̛͍̯̖̱̝͉̫͙͈̪̞̾͑̿̈́̍̎̈́̅̈́̐́̚͝!̴̰̙̬̳͎̐̇͂͂̐̑̈́̎̾̑̍̔͝ ̶̢̛̥̮͖̗̮̥̫͉͌̑̍͂̑͗͂͐̾́͝C̶̛̤̥͇̦̳̪̮͑͆̍͌̐̿̔͑̚͠ͅt̷̮̩̤̘̙̟͉̮̮̳̜̍͑̋̈́̐̈́̒͊̄̾̎͠h̷̹̱̲͖̙̲̞̩̟͓̓̈́̔͆̇͗̎͊̒͘̚͝u̷̢͉̤̻͎̟̟̱͑̾͂̐̾̐́̈́͋͑̚͝l̷̢͙̙̻̙͉̞͍̫̫̓́̈́͆̓̑̀͆̕͠h̶͙͈͉͎̗͓̗͈̝̖̅̽̿͆́͊̐̄̚̕͜͝ư̶͉̟̜̳̗̥͎̯͉̲̐̓͐̓̾̓̓̒͛͐̚ ̷̛͙̠̰̱͍͇̬̫͚͍̓̐̍̋̎̔̍͋̇f̶̡͔͓̞̲͖͇̲̯̝̾̐̽͆͐́̓̍͆̕͝ͅḧ̶͎̞͓̤̳͙̗̮̯́̍͑̐̑̍̐͂͒̔͘ͅṯ̶̡̢̛̛͔̥̝͓͎̻̘̾̑̽̑͋̄̕͝͝a̵̛͇̙̘̪̳̍̀̑͋̾̀́̓͠͝g̶͓̝̘͓͙̮͉̗̜̳͌͑͌̈́̓͗̄̽͘n̶̡̻̫̱̹͎̈́͋́͂̎̍͑̔͝͠͝","DIO","alta"));
 
         return ListOfTickets;
     }

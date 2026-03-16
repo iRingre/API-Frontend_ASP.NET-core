@@ -39,6 +39,7 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<Tickets>();
+builder.Services.AddScoped<Clients>();
 /*------------------------------------------------------------------------------------------*/
 
 
@@ -92,6 +93,11 @@ app.MapPost("/api/logout", async (HttpContext ctx, Authentication auth) =>
 app.MapGet("/api/tickets", async ([FromServices] Tickets tk, HttpContext ctx) =>
 {
     return await tk.GetAllTickets();
+});
+
+app.MapGet("/api/clients", async ([FromServices] Clients cli, HttpContext ctx) =>
+{
+    return await cli.GetAllClients();
 });
 
 app.Run();

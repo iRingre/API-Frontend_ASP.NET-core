@@ -1,0 +1,56 @@
+@page "/clients"
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Nav
+@inject HttpClient Http
+
+<PageTitle>Clienti</PageTitle>
+
+<h3>Lista Clienti</h3>
+
+@if (ListOfClients == null)
+{
+    <p>Caricamento...</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var cliente in ListOfClients)
+            {
+                <tr>
+                    <td>@cliente.Id</td>
+                    <td>@cliente.Nome</td>
+                    <td>@cliente.Cognome</td>
+                    <td>@cliente.Email</td>
+                    <td>@cliente.Telefono</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm">Modifica</button>
+                        <button class="btn btn-danger btn-sm">Elimina</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code{
+    List<Client> ListOfClients = new List<Client>();
+
+
+    protected override async Task OnInitializedAsync(){
+        ListOfClients = await Http.GetFromJsonAsync<List<Client>>("https://localhost:7257/api/clients");
+    }
+}

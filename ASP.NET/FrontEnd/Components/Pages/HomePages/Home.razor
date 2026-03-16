@@ -36,8 +36,8 @@
         Username = user.Identity!.Name!;
     }
 
-    void VaiAClienti() => Console.WriteLine("Vai a clienti");
+    void VaiAClienti() => Nav.NavigateTo("/clients", true);
     void VaiAOrdini() => Console.WriteLine("Vai a ordini");
-    void VaiAImpostazioni() => Nav.NavigateTo("/todo", true);
+    void VaiAImpostazioni() => Nav.NavigateTo("/weather", true);
     void VaiTickets() => Nav.NavigateTo("/tickets", true);
 }

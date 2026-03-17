@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="10.3.4" />
+    <PackageReference Include="OSKHelpers" Version="1.6.16" />
   </ItemGroup>
 
 </Project>

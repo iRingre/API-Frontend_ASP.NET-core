@@ -90,14 +90,19 @@ app.MapPost("/api/logout", async (HttpContext ctx, Authentication auth) =>
 
 
 
-app.MapGet("/api/tickets", async ([FromServices] Tickets tk, HttpContext ctx) =>
+app.MapGet("/api/tickets", async (Tickets tk) =>
 {
-    return await tk.GetAllTickets();
+    return Results.Ok(await tk.GetAllTickets());
 });
+ app.MapPost("/api/savetickets", async (Ticket tk) =>
+ {
+     
+ });
 
-app.MapGet("/api/clients", async ([FromServices] Clients cli, HttpContext ctx) =>
+
+app.MapGet("/api/clients", async (Clients cli) =>
 {
-    return await cli.GetAllClients();
+    return Results.Ok(await cli.GetAllClients());
 });
 
 app.Run();

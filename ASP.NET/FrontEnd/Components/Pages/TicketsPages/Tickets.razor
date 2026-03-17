@@ -119,4 +119,8 @@
             _ => ""
         };
     }
+
+    private async Task send(){
+        await Http.PostAsJsonAsync("https://localhost:7257/api/savetickets", Tick);
+    }
 }

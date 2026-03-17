@@ -37,6 +37,12 @@ public class Tickets
 
         return ListOfTickets;
     }
+
+    public async Task<bool> SaveModifiedTikets()
+    {
+        
+        return true;
+    }
 }
 
 

@@ -94,10 +94,11 @@ app.MapGet("/api/tickets", async (Tickets tk) =>
 {
     return Results.Ok(await tk.GetAllTickets());
 });
- app.MapPost("/api/savetickets", async (Ticket tk) =>
- {
+
+app.MapPost("/api/savetickets", async (Ticket tk) =>
+{
      
- });
+});
 
 
 app.MapGet("/api/clients", async (Clients cli) =>

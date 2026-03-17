@@ -35,11 +35,14 @@ public class Tickets
         ListOfTickets.Add(new Ticket("Viaggiatore della RAM Onirica","aperto","0015","La RAM sogna pecore elettriche e dimentica i processi","ISTITUTO PSICANALITICO DELL'HARDWARE","bassa"));
         ListOfTickets.Add(new Ticket("Strongest soldier","aperto","0016","Ḯ̷̗̱̥̩̯̜̩̙̘͙̙̙̰̐̏͌͂̑̈́̈́̚͜͠͝a̷̢̛͍̯̖̱̝͉̫͙͈̪̞̾͑̿̈́̍̎̈́̅̈́̐́̚͝!̴̰̙̬̳͎̐̇͂͂̐̑̈́̎̾̑̍̔͝ ̶̢̛̥̮͖̗̮̥̫͉͌̑̍͂̑͗͂͐̾́͝C̶̛̤̥͇̦̳̪̮͑͆̍͌̐̿̔͑̚͠ͅt̷̮̩̤̘̙̟͉̮̮̳̜̍͑̋̈́̐̈́̒͊̄̾̎͠h̷̹̱̲͖̙̲̞̩̟͓̓̈́̔͆̇͗̎͊̒͘̚͝u̷̢͉̤̻͎̟̟̱͑̾͂̐̾̐́̈́͋͑̚͝l̷̢͙̙̻̙͉̞͍̫̫̓́̈́͆̓̑̀͆̕͠h̶͙͈͉͎̗͓̗͈̝̖̅̽̿͆́͊̐̄̚̕͜͝ư̶͉̟̜̳̗̥͎̯͉̲̐̓͐̓̾̓̓̒͛͐̚ ̷̛͙̠̰̱͍͇̬̫͚͍̓̐̍̋̎̔̍͋̇f̶̡͔͓̞̲͖͇̲̯̝̾̐̽͆͐́̓̍͆̕͝ͅḧ̶͎̞͓̤̳͙̗̮̯́̍͑̐̑̍̐͂͒̔͘ͅṯ̶̡̢̛̛͔̥̝͓͎̻̘̾̑̽̑͋̄̕͝͝a̵̛͇̙̘̪̳̍̀̑͋̾̀́̓͠͝g̶͓̝̘͓͙̮͉̗̜̳͌͑͌̈́̓͗̄̽͘n̶̡̻̫̱̹͎̈́͋́͂̎̍͑̔͝͠͝","DIO","alta"));
 
+        await con.CloseAsync();
         return ListOfTickets;
     }
 
     public async Task<bool> SaveModifiedTikets()
     {
+        
+
         
         return true;
     }

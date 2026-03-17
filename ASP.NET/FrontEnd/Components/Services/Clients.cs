@@ -33,6 +33,8 @@ public class Clients
         ListOfClient.Add(new Client(15,"Viaggiatore","della RAM Onirica","cliente15@email.com","+39 000000015"));
         ListOfClient.Add(new Client(16,"Strongest","soldier","cliente16@email.com","+39 000000016"));
 
+
+        await con.CloseAsync();
         return ListOfClient;
     }
 

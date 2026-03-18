@@ -38,7 +38,7 @@ else
                     <td>@cliente.Telefono</td>
                     <td>
                         <button class="btn btn-primary btn-sm">Modifica</button>
-                        <button class="btn btn-danger btn-sm">Elimina</button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeletClient(cliente)">Elimina</button>
                     </td>
                 </tr>
             }
@@ -52,5 +52,9 @@ else
 
     protected override async Task OnInitializedAsync(){
         ListOfClients = await Http.GetFromJsonAsync<List<Client>>("https://localhost:7257/api/clients");
+    }
+
+    protected void DeletClient(Client c){
+        ListOfClients!.Remove(c);
     }
 }

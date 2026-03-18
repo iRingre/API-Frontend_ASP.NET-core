@@ -95,9 +95,17 @@ app.MapGet("/api/tickets", async (Tickets tk) =>
     return Results.Ok(await tk.GetAllTickets());
 });
 
-app.MapPost("/api/savetickets", async (Ticket tk) =>
+app.MapPost("/api/savetickets", async (List<Ticket> tk, Tickets t) =>
 {
-     
+    foreach(var tick in tk)
+    {
+        Console.WriteLine("["+tick.Assegnatario+", "+tick.Categoria+", "+tick.DatiCliente+"]");
+    }
+
+    var ok = await t.SaveModifiedTikets(tk);
+
+    if(ok)return Results.Ok();
+    else return Results.Problem();    
 });
 
 

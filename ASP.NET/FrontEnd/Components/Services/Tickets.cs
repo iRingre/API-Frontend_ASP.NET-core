@@ -39,7 +39,7 @@ public class Tickets
         return ListOfTickets;
     }
 
-    public async Task<bool> SaveModifiedTikets()
+    public async Task<bool> SaveModifiedTikets(List<Ticket> saveTickets)
     {
         
 

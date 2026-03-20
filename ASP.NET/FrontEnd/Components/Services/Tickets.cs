@@ -13,12 +13,36 @@ public class Tickets
 
     public async Task<List<Ticket>> GetAllTickets()//dovranno essere passati dei criteri di filtraggio alla funzione 
     {
+        List<Ticket> ListOfTickets = new List<Ticket>();
         string connString = _provider.GetConnectionString();
         var con = new FbConnection(connString);
+        string sql = "SELECT ID, ASSEGNATARIO, CATEGORIA, DATICLIENTE, DESCRIZIONEDETTAGLIATA, RICHIEDENTE, URGENZA, DATACREAZIONE FROM TICKETS";
 
-        var cmd = new FbCommand();
-        List<Ticket> ListOfTickets = new List<Ticket>();
-        ListOfTickets.Add(new Ticket("Ωmega Pollo Primordiale","aperto","0001","Il PC ha collassato in un buco nero ogni volta che apro il gestionale","CONSORZIO COSMICO DEL POLLAIO","alta"));
+        var cmd = new FbCommand(sql, con);
+        con.Open();
+
+
+        using (FbDataReader reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                Ticket t = new Ticket
+                (
+                    reader.GetInt32(0),
+                    reader.IsDBNull(1) ? string.Empty : reader.GetString(1),
+                    reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                    reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
+                    reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
+                    reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
+                    reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
+                    reader.GetDateTime(7)
+                );
+                ListOfTickets.Add(t);
+            }
+            
+        }
+        
+       /* ListOfTickets.Add(new Ticket("Ωmega Pollo Primordiale","aperto","0001","Il PC ha collassato in un buco nero ogni volta che apro il gestionale","CONSORZIO COSMICO DEL POLLAIO","alta"));
         ListOfTickets.Add(new Ticket("Arciduca Spatola Quantistica","in lavorazione","0002","La cache contiene ricordi di vite passate e rifiuta di svuotarsi","MINISTERO DELLE POSATE TEMPORALI","bassa"));
         ListOfTickets.Add(new Ticket("Entità 404 Senza Forma","chiuso","0003","Il server risponde ma sostiene che la realtà non esiste","FONDAZIONE PARADOSSI DIGITALI","media"));
         ListOfTickets.Add(new Ticket("Nonna Antimateria","chiuso","0004","Il microonde ha compilato codice C++ e ora pretende RAM","CUCINA NUCLEARE SPA","media"));
@@ -33,7 +57,7 @@ public class Tickets
         ListOfTickets.Add(new Ticket("Domatore di Container Ribelli","in lavorazione","0013","Docker ha deciso di diventare una religione e chiede fedeli","MONASTERO KUBERNETICO","alta"));
         ListOfTickets.Add(new Ticket("Custode del Firewall Mistico","chiuso","0014","Il firewall blocca i pacchetti perché percepisce cattive vibrazioni","ORDINE ESOTERICO DELLA SICUREZZA","media"));
         ListOfTickets.Add(new Ticket("Viaggiatore della RAM Onirica","aperto","0015","La RAM sogna pecore elettriche e dimentica i processi","ISTITUTO PSICANALITICO DELL'HARDWARE","bassa"));
-        ListOfTickets.Add(new Ticket("Strongest soldier","aperto","0016","Ḯ̷̗̱̥̩̯̜̩̙̘͙̙̙̰̐̏͌͂̑̈́̈́̚͜͠͝a̷̢̛͍̯̖̱̝͉̫͙͈̪̞̾͑̿̈́̍̎̈́̅̈́̐́̚͝!̴̰̙̬̳͎̐̇͂͂̐̑̈́̎̾̑̍̔͝ ̶̢̛̥̮͖̗̮̥̫͉͌̑̍͂̑͗͂͐̾́͝C̶̛̤̥͇̦̳̪̮͑͆̍͌̐̿̔͑̚͠ͅt̷̮̩̤̘̙̟͉̮̮̳̜̍͑̋̈́̐̈́̒͊̄̾̎͠h̷̹̱̲͖̙̲̞̩̟͓̓̈́̔͆̇͗̎͊̒͘̚͝u̷̢͉̤̻͎̟̟̱͑̾͂̐̾̐́̈́͋͑̚͝l̷̢͙̙̻̙͉̞͍̫̫̓́̈́͆̓̑̀͆̕͠h̶͙͈͉͎̗͓̗͈̝̖̅̽̿͆́͊̐̄̚̕͜͝ư̶͉̟̜̳̗̥͎̯͉̲̐̓͐̓̾̓̓̒͛͐̚ ̷̛͙̠̰̱͍͇̬̫͚͍̓̐̍̋̎̔̍͋̇f̶̡͔͓̞̲͖͇̲̯̝̾̐̽͆͐́̓̍͆̕͝ͅḧ̶͎̞͓̤̳͙̗̮̯́̍͑̐̑̍̐͂͒̔͘ͅṯ̶̡̢̛̛͔̥̝͓͎̻̘̾̑̽̑͋̄̕͝͝a̵̛͇̙̘̪̳̍̀̑͋̾̀́̓͠͝g̶͓̝̘͓͙̮͉̗̜̳͌͑͌̈́̓͗̄̽͘n̶̡̻̫̱̹͎̈́͋́͂̎̍͑̔͝͠͝","DIO","alta"));
+        ListOfTickets.Add(new Ticket("Strongest soldier","aperto","0016","Ḯ̷̗̱̥̩̯̜̩̙̘͙̙̙̰̐̏͌͂̑̈́̈́̚͜͠͝a̷̢̛͍̯̖̱̝͉̫͙͈̪̞̾͑̿̈́̍̎̈́̅̈́̐́̚͝!̴̰̙̬̳͎̐̇͂͂̐̑̈́̎̾̑̍̔͝ ̶̢̛̥̮͖̗̮̥̫͉͌̑̍͂̑͗͂͐̾́͝C̶̛̤̥͇̦̳̪̮͑͆̍͌̐̿̔͑̚͠ͅt̷̮̩̤̘̙̟͉̮̮̳̜̍͑̋̈́̐̈́̒͊̄̾̎͠h̷̹̱̲͖̙̲̞̩̟͓̓̈́̔͆̇͗̎͊̒͘̚͝u̷̢͉̤̻͎̟̟̱͑̾͂̐̾̐́̈́͋͑̚͝l̷̢͙̙̻̙͉̞͍̫̫̓́̈́͆̓̑̀͆̕͠h̶͙͈͉͎̗͓̗͈̝̖̅̽̿͆́͊̐̄̚̕͜͝ư̶͉̟̜̳̗̥͎̯͉̲̐̓͐̓̾̓̓̒͛͐̚ ̷̛͙̠̰̱͍͇̬̫͚͍̓̐̍̋̎̔̍͋̇f̶̡͔͓̞̲͖͇̲̯̝̾̐̽͆͐́̓̍͆̕͝ͅḧ̶͎̞͓̤̳͙̗̮̯́̍͑̐̑̍̐͂͒̔͘ͅṯ̶̡̢̛̛͔̥̝͓͎̻̘̾̑̽̑͋̄̕͝͝a̵̛͇̙̘̪̳̍̀̑͋̾̀́̓͠͝g̶͓̝̘͓͙̮͉̗̜̳͌͑͌̈́̓͗̄̽͘n̶̡̻̫̱̹͎̈́͋́͂̎̍͑̔͝͠͝","DIO","alta"));*/
 
         await con.CloseAsync();
         return ListOfTickets;
@@ -51,6 +75,7 @@ public class Tickets
 
 public class Ticket
 {
+    public int Id {get; set;}
     public string Assegnatario { get; set; }
     public string Categoria { get; set; }
     public string DatiCliente { get; set; }
@@ -58,20 +83,26 @@ public class Ticket
     public string Richiedente { get; set; }
     public string Urgenza { get; set; }
 
+    public DateTime DataCreazione {get; set;}
+
     [JsonConstructor]
     public Ticket(
+        int id,
         string assegnatario,
         string categoria,
         string datiCliente,
         string descrizioneDettagliata,
         string richiedente,
-        string urgenza)
+        string urgenza,
+        DateTime dataCreazione)
     {
+        Id = id;
         Assegnatario = assegnatario;
         Categoria = categoria;
         DatiCliente = datiCliente;
         DescrizioneDettagliata = descrizioneDettagliata;
         Richiedente = richiedente;
         Urgenza = urgenza;
+        DataCreazione = dataCreazione;
     }
 }

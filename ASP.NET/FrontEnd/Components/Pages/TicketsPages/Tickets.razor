@@ -118,7 +118,7 @@
         isLoading = true;
         try 
         {
-            Tick = await Http.GetFromJsonAsync<List<Ticket>>("https://localhost:7257/api/tickets");
+            Tick = await Http.GetFromJsonAsync<List<Ticket>>("/api/tickets");
             //await Task.Delay(1000);
             
         }
@@ -151,7 +151,7 @@
     }
 
     private async Task send(){
-        await Http.PostAsJsonAsync("https://localhost:7257/api/savetickets", Tick);
+        await Http.PostAsJsonAsync("/api/savetickets", Tick);
     }
 
     private void ModificaTicket(Ticket ticket)

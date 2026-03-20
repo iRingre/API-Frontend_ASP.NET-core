@@ -12,6 +12,10 @@ builder.Services.AddScoped<Authentication>();
 
 
 builder.Services.AddHttpClient();//metti client in forma di http così da fare delle chiamate api tramite http
+builder.Services.AddScoped(sp => new HttpClient
+{
+    BaseAddress = new Uri("https://localhost:7257/")
+});
 /*-------------------------------------------------------------------*/
 //Firebird
 builder.Services.Configure<FirebirdConfig>(

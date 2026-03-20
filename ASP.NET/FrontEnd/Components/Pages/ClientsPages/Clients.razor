@@ -51,7 +51,7 @@ else
 
 
     protected override async Task OnInitializedAsync(){
-        ListOfClients = await Http.GetFromJsonAsync<List<Client>>("https://localhost:7257/api/clients");
+        ListOfClients = await Http.GetFromJsonAsync<List<Client>>("/api/clients");
     }
 
     protected void DeletClient(Client c){

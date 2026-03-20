@@ -78,19 +78,41 @@
                             </td>
                             <td>@ticket.Assegnatario</td>
                             <td>
-                            <button class="btn btn-primary btn-sm" @onclick="ModificaTicket">Modifica</button>
+                            <button class="btn btn-primary btn-sm" @onclick="()=>ModificaTicket(ticket)">Modifica</button>
                     </td>
                         </tr>
                     }
                 }
             </tbody>
         </table>
+        @if (editingTicket != null)
+        {
+            <div class="edit-form">
+                <h4>Modifica Ticket @editingTicket.Id</h4>
+        
+                <EditForm Model="editingTicket">
+                    
+                    <InputText @bind-Value="editingTicket.DatiCliente" />
+                    <InputText @bind-Value="editingTicket.Richiedente" />
+                    <InputText @bind-Value="editingTicket.DescrizioneDettagliata" />
+                    <InputText @bind-Value="editingTicket.Categoria" />
+                    <InputText @bind-Value="editingTicket.Urgenza" />
+                    <InputText @bind-Value="editingTicket.Assegnatario" />
+        
+                    <button type="submit" class="btn btn-success">Salva</button>
+                    <button type="button" class="btn btn-secondary" @onclick="Annulla">Annulla</button>
+        
+                </EditForm>
+            </div>
+        }
     </div>
 </div>
 
 @code {
     private bool isLoading = false;
     List<Ticket>? Tick = new List<Ticket>();
+
+    Ticket? editingTicket;
     
     protected override async Task OnInitializedAsync()
     {
@@ -133,8 +155,22 @@
         await Http.PostAsJsonAsync("https://localhost:7257/api/savetickets", Tick);
     }
 
-    private void ModificaTicket(){
+    private void ModificaTicket(Ticket ticket)
+    {
+        editingTicket = new Ticket(
 
+            ticket.Id,
+            ticket.DatiCliente,
+            ticket.Richiedente,
+            ticket.DescrizioneDettagliata,
+            ticket.Categoria,
+            ticket.Urgenza,
+            ticket.Assegnatario,
+            ticket.DataCreazione
+        );
+    }
+    private void Annulla(){
+        editingTicket = null;
     }
 
 }

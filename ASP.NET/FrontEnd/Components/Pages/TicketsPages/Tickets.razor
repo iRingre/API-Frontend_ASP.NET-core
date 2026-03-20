@@ -77,9 +77,8 @@
                                 </span>
                             </td>
                             <td>@ticket.Assegnatario</td>
-                            <td>
-                            <button class="btn btn-primary btn-sm" @onclick="()=>ModificaTicket(ticket)">Modifica</button>
-                    </td>
+                            <td>@ticket.DataCreazione</td>
+                            <td><button class="btn btn-primary btn-sm" @onclick="()=>ModificaTicket(ticket)">Modifica</button></td>
                         </tr>
                     }
                 }

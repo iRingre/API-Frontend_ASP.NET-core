@@ -328,3 +328,76 @@
 .table-container::-webkit-scrollbar-thumb:hover {
     background: var(--text-secondary);
 }
+
+/*----------------- box per modifiche ticket----------------------*/
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.5); /* sfondo scuro */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.modal-box {
+    background-color: #023C56; /* stesso blu */
+    padding: 25px;
+    border-radius: 18px;
+    width: 420px;
+    max-width: 90%;
+
+    border: 2px solid rgba(255,255,255,0.25);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-box h4 {
+    color: white;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    color: #e0e0e0;
+    font-size: 13px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.modal-actions button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #b5b5b5;
+    background-color: #023C56;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.modal-actions button:hover {
+    background-color: #03577d;
+}
+
+.btn-cancel {
+    background-color: #555;
+}

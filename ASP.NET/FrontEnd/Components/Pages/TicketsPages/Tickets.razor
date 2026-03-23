@@ -17,7 +17,7 @@
             <span>📋</span> Carica Tickets
         </button>
         <button class="fetch-button" @onclick="@send">
-            <span>✅</span> Salva
+            <span>✅</span> Salva Tutte le modifiche
         </button>
     </div>
 
@@ -86,22 +86,64 @@
         </table>
         @if (editingTicket != null)
         {
-            <div class="edit-form">
-                <h4>Modifica Ticket @editingTicket.Id</h4>
-        
-                <EditForm Model="editingTicket">
-                    
-                    <InputText @bind-Value="editingTicket.DatiCliente" />
-                    <InputText @bind-Value="editingTicket.Richiedente" />
-                    <InputText @bind-Value="editingTicket.DescrizioneDettagliata" />
-                    <InputText @bind-Value="editingTicket.Categoria" />
-                    <InputText @bind-Value="editingTicket.Urgenza" />
-                    <InputText @bind-Value="editingTicket.Assegnatario" />
-        
-                    <button type="submit" class="btn btn-success">Salva</button>
-                    <button type="button" class="btn btn-secondary" @onclick="Annulla">Annulla</button>
-        
-                </EditForm>
+            <div class="modal-overlay">
+                <div class="modal-box">
+                
+                    <h4>Modifica Ticket @editingTicket.Id</h4>
+
+                    <EditForm Model="editingTicket">
+
+                        <div class="form-group">
+                            <label>Dati Cliente</label>
+                            <InputText @bind-Value="editingTicket.DatiCliente" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Richiedente</label>
+                            <InputText @bind-Value="editingTicket.Richiedente" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Descrizione</label>
+                            <InputText @bind-Value="editingTicket.DescrizioneDettagliata" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <InputSelect @bind-Value="editingTicket.Categoria">
+                                <option value="Aperto">Aperto</option>
+                                <option value="In lavorazione">In lavorazione</option>
+                                <option value="Chiuso">Chiuso</option>
+                            </InputSelect>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Urgenza</label>
+                            <InputSelect @bind-Value="editingTicket.Urgenza">
+                                <option value="Alta">Alta</option>
+                                <option value="Media">Media</option>
+                                <option value="Bassa">Bassa</option>
+                            </InputSelect>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Assegnatario</label>
+                            <InputText @bind-Value="editingTicket.Assegnatario" />
+                        </div>
+
+                        <div class="modal-actions">
+                            <button type="button" @onclick="() => SaveSingleTicket(editingTicket.Id)">
+                                Salva
+                            </button>
+                        
+                            <button type="button" class="btn-cancel" @onclick="Annulla">
+                                Annulla
+                            </button>
+                        </div>
+
+                    </EditForm>
+
+                </div>
             </div>
         }
     </div>
@@ -110,6 +152,7 @@
 @code {
     private bool isLoading = false;
     List<Ticket>? Tick = new List<Ticket>();
+    List<Ticket>? TickToSave = new List<Ticket>();
 
     Ticket? editingTicket;
     
@@ -151,7 +194,8 @@
     }
 
     private async Task send(){
-        await Http.PostAsJsonAsync("/api/savetickets", Tick);
+        await Http.PostAsJsonAsync("/api/savetickets", TickToSave);
+        TickToSave = new List<Ticket>();
     }
 
     private void ModificaTicket(Ticket ticket)
@@ -159,17 +203,47 @@
         editingTicket = new Ticket(
 
             ticket.Id,
-            ticket.DatiCliente,
-            ticket.Richiedente,
-            ticket.DescrizioneDettagliata,
-            ticket.Categoria,
-            ticket.Urgenza,
             ticket.Assegnatario,
+            ticket.Categoria,
+            ticket.DatiCliente,
+            ticket.DescrizioneDettagliata,
+            ticket.Richiedente,
+            ticket.Urgenza,
             ticket.DataCreazione
         );
     }
     private void Annulla(){
         editingTicket = null;
     }
+
+    private void SaveSingleTicket(int id){
+        for(int i = 0; i< Tick!.Count; i++){
+            if(Tick[i].Id == id){
+                Tick[i] = new Ticket(
+                    editingTicket.Id,
+                    editingTicket.Assegnatario,
+                    editingTicket.Categoria,
+                    editingTicket.DatiCliente,
+                    editingTicket.DescrizioneDettagliata,
+                    editingTicket.Richiedente,
+                    editingTicket.Urgenza,
+                    editingTicket.DataCreazione
+                );
+                if(TickToSave!.Count>0){
+                    for(int j = 0; j< TickToSave!.Count; j++){
+                        if(TickToSave[j].Id == Tick[i].Id){
+                            TickToSave[j] = Tick[i];
+                            editingTicket = null;
+                            return;
+                        }
+                    }
+                }
+                TickToSave!.Add(Tick[i]);
+                editingTicket = null;
+                return;
+            }
+        }
+    }
+
 
 }

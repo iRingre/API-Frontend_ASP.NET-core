@@ -48,9 +48,44 @@ public class Tickets
 
     public async Task<bool> SaveModifiedTikets(List<Ticket> saveTickets)
     {
-        
-        
-        
+        string connString = _provider.GetConnectionString();
+        var con = new FbConnection(connString);
+
+        con.Open();
+
+        using(var transaction = con.BeginTransaction())
+        {
+            string query = @"
+            UPDATE TICKETS
+            SET 
+                DATICLIENTE = @DatiCliente,
+                RICHIEDENTE = @Richiedente,
+                DESCRIZIONEDETTAGLIATA = @Descrizione,
+                CATEGORIA = @Categoria,
+                URGENZA = @Urgenza,
+                ASSEGNATARIO = @Assegnatario
+            WHERE ID = @Id";
+            using(var cmd = new FbCommand(query, con, transaction))
+            {
+                foreach (var ticket in saveTickets)
+                {
+                    cmd.Parameters.Clear();
+
+                    cmd.Parameters.AddWithValue("@DatiCliente", ticket.DatiCliente);
+                    cmd.Parameters.AddWithValue("@Richiedente", ticket.Richiedente);
+                    cmd.Parameters.AddWithValue("@Descrizione", ticket.DescrizioneDettagliata);
+                    cmd.Parameters.AddWithValue("@Categoria", ticket.Categoria);
+                    cmd.Parameters.AddWithValue("@Urgenza", ticket.Urgenza);
+                    cmd.Parameters.AddWithValue("@Assegnatario", ticket.Assegnatario);
+                    cmd.Parameters.AddWithValue("@Id", ticket.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            transaction.Commit();
+        }
+
+        con.Close();
         return true;
     }
 }

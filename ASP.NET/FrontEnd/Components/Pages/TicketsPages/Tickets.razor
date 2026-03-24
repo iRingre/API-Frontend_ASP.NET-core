@@ -105,7 +105,7 @@
 
                         <div class="form-group">
                             <label>Descrizione</label>
-                            <InputText @bind-Value="editingTicket.DescrizioneDettagliata" />
+                            <InputTextArea @bind-Value="editingTicket.DescrizioneDettagliata" class="textarea-big" />
                         </div>
 
                         <div class="form-group">
@@ -135,7 +135,7 @@
                             <button type="button" @onclick="() => SaveSingleTicket(editingTicket.Id)">
                                 Salva
                             </button>
-                        
+
                             <button type="button" class="btn-cancel" @onclick="Annulla">
                                 Annulla
                             </button>
@@ -194,8 +194,12 @@
     }
 
     private async Task send(){
-        await Http.PostAsJsonAsync("/api/savetickets", TickToSave);
-        TickToSave = new List<Ticket>();
+        if(TickToSave.Count > 0){
+            await Http.PostAsJsonAsync("/api/savetickets", TickToSave);
+            TickToSave = new List<Ticket>();
+        }else {
+            Console.WriteLine("non c'è stata alcuna modifica nei tickets");
+        }
     }
 
     private void ModificaTicket(Ticket ticket)

@@ -401,3 +401,43 @@
 .btn-cancel {
     background-color: #555;
 }
+
+.modal-box input,
+.modal-box select,
+.modal-box textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #b5b5b5;
+    font-size: 14px;
+
+    background-color: #f8f9fa;
+    transition: all 0.2s ease;
+}
+
+/* effetto focus più figo */
+.modal-box input:focus,
+.modal-box select:focus,
+.modal-box textarea:focus {
+    border-color: #03c5c5;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(3,197,197,0.5);
+}
+
+/* effetto hover leggero */
+.modal-box input:hover,
+.modal-box select:hover,
+.modal-box textarea:hover {
+    border-color: #03c5c5;
+}
+
+.textarea-big {
+    min-height: 120px;
+    resize: vertical; /* puoi allungarla */
+}
+.form-group label {
+    color: #e0e0e0;
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 2px;
+}

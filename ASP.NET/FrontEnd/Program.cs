@@ -69,6 +69,8 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+
+/*---------------------------------- LOG IN/OUT ---------------------------------------*/
 app.MapPost("/api/login", async (HttpContext ctx, Authentication auth) =>
 {
     var form = await ctx.Request.ReadFormAsync();
@@ -91,8 +93,8 @@ app.MapPost("/api/logout", async (HttpContext ctx, Authentication auth) =>
 
     return Results.Redirect("/login");
 });
-
-
+/*---------------------------------------------------------------------------------*/
+/*---------------------------------- TICKETS ---------------------------------------*/
 
 app.MapGet("/api/tickets", async (Tickets tk) =>
 {
@@ -101,21 +103,20 @@ app.MapGet("/api/tickets", async (Tickets tk) =>
 
 app.MapPost("/api/savetickets", async (List<Ticket> tk, Tickets t) =>
 {
-    foreach(var tick in tk)
-    {
-        Console.WriteLine("["+tick.Assegnatario+", "+tick.Categoria+", "+tick.DatiCliente+"]");
-    }
-
     var ok = await t.SaveModifiedTikets(tk);
 
     if(ok)return Results.Ok();
     else return Results.Problem();    
 });
 
+/*---------------------------------------------------------------------------------*/
 
+/*---------------------------------- CLIENTS ---------------------------------------*/
 app.MapGet("/api/clients", async (Clients cli) =>
 {
     return Results.Ok(await cli.GetAllClients());
 });
 
 app.Run();
+
+/*---------------------------------------------------------------------------------*/

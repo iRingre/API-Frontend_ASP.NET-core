@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
 
+
 var builder = WebApplication.CreateBuilder(args);//crea la web application
 
 // Add services to the container.
@@ -71,6 +72,7 @@ app.MapRazorComponents<App>()
 
 
 /*---------------------------------- LOG IN/OUT ---------------------------------------*/
+
 app.MapPost("/api/login", async (HttpContext ctx, Authentication auth) =>
 {
     var form = await ctx.Request.ReadFormAsync();
@@ -93,7 +95,9 @@ app.MapPost("/api/logout", async (HttpContext ctx, Authentication auth) =>
 
     return Results.Redirect("/login");
 });
-/*---------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------------*/
+
 /*---------------------------------- TICKETS ---------------------------------------*/
 
 app.MapGet("/api/tickets", async (Tickets tk) =>
@@ -109,14 +113,16 @@ app.MapPost("/api/savetickets", async (List<Ticket> tk, Tickets t) =>
     else return Results.Problem();    
 });
 
-/*---------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------*/
 
 /*---------------------------------- CLIENTS ---------------------------------------*/
+
 app.MapGet("/api/clients", async (Clients cli) =>
 {
     return Results.Ok(await cli.GetAllClients());
 });
 
+/*----------------------------------------------------------------------------------*/
+
 app.Run();
 
-/*---------------------------------------------------------------------------------*/

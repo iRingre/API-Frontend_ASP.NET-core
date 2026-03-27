@@ -14,10 +14,13 @@
     <div class="page-header">
         <h3>Gestione Tickets</h3>
         <button class="fetch-button" @onclick="@OnInitializedAsync">
-            <span>📋</span> Carica Tickets
+            <span>📋</span> Ricarica Tickets
         </button>
         <button class="fetch-button" @onclick="@send">
             <span>✅</span> Salva Tutte le modifiche
+        </button>
+        <button class="fetch-button" @onclick="@NewTicket">
+            <span>➕</span> Aggiungi Ticket
         </button>
     </div>
 
@@ -247,6 +250,10 @@
                 return;
             }
         }
+    }
+
+    private void NewTicket(){
+        
     }
 
 

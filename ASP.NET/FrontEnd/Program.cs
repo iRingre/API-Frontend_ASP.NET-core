@@ -79,14 +79,12 @@ app.MapPost("/api/login", async (HttpContext ctx, Authentication auth) =>
     var username = form["Username"];
     var password = form["Password"];
 
-    var ok = await auth.LoginAsync(username!, password!);
+    if (await auth.LoginAsync(username!, password!))
+    {
+        await auth.CreateSession(username!);
+        return Results.Redirect("/home");
 
-    if (!ok)
-        return Results.Redirect("/login?error=1");
-
-    await auth.CreateSession(username!);
-
-    return Results.Redirect("/home");
+    }else return Results.Redirect("/login?error=1");
 });
 
 app.MapPost("/api/logout", async (HttpContext ctx, Authentication auth) =>
@@ -107,10 +105,13 @@ app.MapGet("/api/tickets", async (Tickets tk) =>
 
 app.MapPost("/api/savetickets", async (List<Ticket> tk, Tickets t) =>
 {
-    var ok = await t.SaveModifiedTikets(tk);
-
-    if(ok)return Results.Ok();
+    if(await t.SaveModifiedTikets(tk))return Results.Ok();
     else return Results.Problem();    
+});
+
+app.MapPost("/api/newticket", async(Ticket t, Tickets tk) =>
+{
+    
 });
 
 /*----------------------------------------------------------------------------------*/

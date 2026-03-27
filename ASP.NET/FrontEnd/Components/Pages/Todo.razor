@@ -15,7 +15,7 @@
     }
 </ul>
 
-<input @oninput="newTodos" @onkeydown="Invio"/>
+<input @oninput="newTodos" @onkeydown="Invio" @bind-value="newTodo"/>
 <button @onclick="CreateTodo">Add Todo</button>
 
 @code{
@@ -49,6 +49,9 @@
                 control = false;
             }
         }
-        if (e.Code == "Enter" && control && !string.IsNullOrEmpty(newTodo)) todos.Add(new TodoItem { Title = newTodo });
+        if (e.Code == "Enter" && control && !string.IsNullOrEmpty(newTodo)){
+            todos.Add(new TodoItem { Title = newTodo });
+            newTodo = "";
+        }
     }
 }

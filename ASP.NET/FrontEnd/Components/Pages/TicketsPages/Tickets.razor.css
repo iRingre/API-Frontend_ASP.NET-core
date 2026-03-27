@@ -106,11 +106,11 @@
     transition: var(--transition);
 }
 
-.custom-table tbody tr:hover {
+/*.custom-table tbody tr:hover {
     background: var(--bg-light);
     transform: scale(1.01);
     box-shadow: var(--shadow-sm);
-}
+}*/
 
 .custom-table td {
     padding: 1rem 1.2rem;

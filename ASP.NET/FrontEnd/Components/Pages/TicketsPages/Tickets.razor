@@ -156,6 +156,8 @@
     private bool isLoading = false;
     List<Ticket>? Tick = new List<Ticket>();
     List<Ticket>? TickToSave = new List<Ticket>();
+    
+    
 
     Ticket? editingTicket;
     
@@ -197,7 +199,7 @@
     }
 
     private async Task send(){
-        if(TickToSave.Count > 0){
+        if(TickToSave!.Count > 0){
             await Http.PostAsJsonAsync("/api/savetickets", TickToSave);
             TickToSave = new List<Ticket>();
         }else {
@@ -224,10 +226,8 @@
     }
 
     private void SaveSingleTicket(int id){
-        for(int i = 0; i< Tick!.Count; i++){
-            if(Tick[i].Id == id){
-                Tick[i] = new Ticket(
-                    editingTicket.Id,
+        var t = new Ticket(
+                    editingTicket!.Id,
                     editingTicket.Assegnatario,
                     editingTicket.Categoria,
                     editingTicket.DatiCliente,
@@ -236,6 +236,9 @@
                     editingTicket.Urgenza,
                     editingTicket.DataCreazione
                 );
+        for(int i = 0; i< Tick!.Count; i++){
+            if(Tick[i].Id == id){
+                Tick[i] = t;
                 if(TickToSave!.Count>0){
                     for(int j = 0; j< TickToSave!.Count; j++){
                         if(TickToSave[j].Id == Tick[i].Id){
@@ -250,10 +253,24 @@
                 return;
             }
         }
+
+        TickToSave!.Add(t);
+        editingTicket = null;
+        return;
     }
 
     private void NewTicket(){
-        
+        editingTicket = new Ticket(
+
+            Tick!.Count+1,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            DateTime.UtcNow
+        );
     }
 
 

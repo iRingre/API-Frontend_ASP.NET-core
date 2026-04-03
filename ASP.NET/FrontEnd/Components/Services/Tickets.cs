@@ -82,6 +82,28 @@ public class Tickets
         con.Close();
         return true;
     }
+
+    public async Task<bool> DeleteTickets(List<Ticket> ticketsToDelete)
+    {
+        string connString = _provider.GetConnectionString();
+        var con = new FbConnection(connString);
+
+        con.Open();
+        string sql = "DELETE FROM TICKETS WHERE ID = @Id";
+        using(FbCommand cmd = new FbCommand(sql, con))
+        {
+            foreach(var t in ticketsToDelete)
+            {
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@Id",t.Id);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        con.Close();
+        return false;
+    }
 }
 
 

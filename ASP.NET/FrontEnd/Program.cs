@@ -109,9 +109,10 @@ app.MapPost("/api/savetickets", async (List<Ticket> tk, Tickets t) =>
     else return Results.Problem();    
 });
 
-app.MapPost("/api/newticket", async(Ticket t, Tickets tk) =>
+app.MapPost("/api/deleteTickets", async(List<Ticket> tk, Tickets t) =>
 {
-    
+    if(await t.DeleteTickets(tk))return Results.Ok();
+    else return Results.Problem();  
 });
 
 /*----------------------------------------------------------------------------------*/

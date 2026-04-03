@@ -441,3 +441,7 @@
     font-weight: 500;
     margin-left: 2px;
 }
+
+tr>td>button{
+    width: 100%;
+}

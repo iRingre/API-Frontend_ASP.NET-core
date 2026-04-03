@@ -7,10 +7,8 @@
 
 <PageTitle>Tickets</PageTitle>
 
-@* Container principale *@
 <div class="tickets-container">
     
-    @* Header con titolo e bottone *@
     <div class="page-header">
         <h3>Gestione Tickets</h3>
         <button class="fetch-button" @onclick="@OnInitializedAsync">
@@ -24,12 +22,11 @@
         </button>
     </div>
 
-    @* Tabella tickets *@
     <div class="table-container">
         <table class="custom-table">
             <thead>
                 <tr>
-                    <th>ID Ticket</th>
+                    <th>ID</th>
                     <th>Azienda Cliente</th>
                     <th>Cliente</th>
                     <th>Oggetto</th>
@@ -81,7 +78,10 @@
                             </td>
                             <td>@ticket.Assegnatario</td>
                             <td>@ticket.DataCreazione</td>
-                            <td><button class="btn btn-primary btn-sm" @onclick="()=>ModificaTicket(ticket)">Modifica</button></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" @onclick="()=>ModificaTicket(ticket)">Modifica</button>
+                                <button class="btn btn-danger btn-sm" @onclick="()=>DeleteTicket(ticket.Id)">Elimina</button>
+                            </td>
                         </tr>
                     }
                 }
@@ -92,7 +92,8 @@
             <div class="modal-overlay">
                 <div class="modal-box">
                 
-                    <h4>Modifica Ticket @editingTicket.Id</h4>
+                    @if(editingTicket.Id > Tick!.Count){<h4>Crea Ticket @editingTicket.Id</h4>}
+                    else {<h4>Modifica Ticket @editingTicket.Id</h4>}
 
                     <EditForm Model="editingTicket">
 
@@ -156,8 +157,9 @@
     private bool isLoading = false;
     List<Ticket>? Tick = new List<Ticket>();
     List<Ticket>? TickToSave = new List<Ticket>();
-    
-    
+
+    List<Ticket>? TickToDelete = new List<Ticket>();
+
 
     Ticket? editingTicket;
     
@@ -166,6 +168,8 @@
         isLoading = true;
         try 
         {
+            TickToSave = new List<Ticket>();
+            TickToDelete = new List<Ticket>();
             Tick = await Http.GetFromJsonAsync<List<Ticket>>("/api/tickets");
             //await Task.Delay(1000);
             
@@ -204,6 +208,12 @@
             TickToSave = new List<Ticket>();
         }else {
             Console.WriteLine("non c'è stata alcuna modifica nei tickets");
+        }
+        if(TickToDelete!.Count > 0){
+            await Http.PostAsJsonAsync("/api/deleteTickets", TickToDelete);
+            TickToDelete = new List<Ticket>();
+        }else {
+            Console.WriteLine("non c'è stata alcuna eliminazione nei tickets");
         }
     }
 
@@ -255,6 +265,7 @@
         }
 
         TickToSave!.Add(t);
+        Tick.Add(t);
         editingTicket = null;
         return;
     }
@@ -273,5 +284,13 @@
         );
     }
 
-
+    private void DeleteTicket(int id){
+        foreach(var t in Tick!){
+            if(t.Id == id){
+                TickToDelete!.Add(t);
+                Tick.Remove(t);
+                return;
+            }
+        }
+    }
 }

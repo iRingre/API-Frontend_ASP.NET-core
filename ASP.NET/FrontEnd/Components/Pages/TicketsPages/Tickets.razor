@@ -155,12 +155,7 @@
 
 @code {
     private bool isLoading = false;
-    List<Ticket>? Tick = new List<Ticket>();
-    List<Ticket>? TickToSave = new List<Ticket>();
-
-    List<Ticket>? TickToDelete = new List<Ticket>();
-
-
+    List<Ticket>? Tick, TickToSave, TickToDelete = new List<Ticket>();
     Ticket? editingTicket;
     
     protected override async Task OnInitializedAsync()
@@ -168,6 +163,7 @@
         isLoading = true;
         try 
         {
+            Tick = new List<Ticket>();
             TickToSave = new List<Ticket>();
             TickToDelete = new List<Ticket>();
             Tick = await Http.GetFromJsonAsync<List<Ticket>>("/api/tickets");

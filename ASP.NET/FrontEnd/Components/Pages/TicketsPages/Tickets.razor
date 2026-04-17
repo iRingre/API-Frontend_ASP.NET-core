@@ -80,7 +80,7 @@
                             <td>@ticket.DataCreazione</td>
                             <td>
                                 <button class="btn btn-primary btn-sm" @onclick="()=>ModificaTicket(ticket)">Modifica</button>
-                                <button class="btn btn-danger btn-sm" @onclick="()=>DeleteTicket(ticket.Id)">Elimina</button>
+                                <button class="btn btn-danger btn-sm" @onclick="()=>DeleteTicket(ticket)">Elimina</button>
                             </td>
                         </tr>
                     }
@@ -280,13 +280,8 @@
         );
     }
 
-    private void DeleteTicket(int id){
-        foreach(var t in Tick!){
-            if(t.Id == id){
-                TickToDelete!.Add(t);
-                Tick.Remove(t);
-                return;
-            }
-        }
+    private void DeleteTicket(Ticket t){
+        TickToDelete!.Add(t);
+        Tick!.Remove(t);
     }
 }

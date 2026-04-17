@@ -16,7 +16,8 @@ public class Tickets
         List<Ticket> ListOfTickets = new List<Ticket>();
         string connString = _provider.GetConnectionString();
         var con = new FbConnection(connString);
-        string sql = "SELECT ID, ASSEGNATARIO, CATEGORIA, DATICLIENTE, DESCRIZIONEDETTAGLIATA, RICHIEDENTE, URGENZA, DATACREAZIONE FROM TICKETS ORDER BY ID";
+        string sql = @"SELECT ID, ASSEGNATARIO, CATEGORIA, DATICLIENTE, DESCRIZIONEDETTAGLIATA, RICHIEDENTE, URGENZA, DATACREAZIONE
+                        FROM TICKETS ORDER BY ID";
 
         var cmd = new FbCommand(sql, con);
         con.Open();
@@ -89,7 +90,7 @@ public class Tickets
         var con = new FbConnection(connString);
 
         con.Open();
-        string sql = "DELETE FROM TICKETS WHERE ID = @Id";
+        string sql = @"DELETE FROM TICKETS WHERE ID = @Id";
         using(FbCommand cmd = new FbCommand(sql, con))
         {
             foreach(var t in ticketsToDelete)

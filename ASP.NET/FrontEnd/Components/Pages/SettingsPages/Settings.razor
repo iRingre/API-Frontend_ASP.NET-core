@@ -1,0 +1,87 @@
+@page "/settings"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+<PageTitle>Impostazioni | Gestionale</PageTitle>
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Impostazioni</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/home">Dashboard</a></li>
+        <li class="breadcrumb-item active">Impostazioni</li>
+    </ol>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Impostazioni Generali</h5>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label class="form-label">Nome Azienda</label>
+                <input type="text" class="form-control" @bind="companyName" />
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" @bind="companyEmail" />
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Telefono</label>
+                <input type="tel" class="form-control" @bind="companyPhone" />
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Partita IVA</label>
+                <input type="text" class="form-control" @bind="companyVat" />
+            </div>
+            
+            <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" @bind="enableNotifications" />
+                <label class="form-check-label">Abilita notifiche email</label>
+            </div>
+            
+            <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" @bind="enableAutoBackup" />
+                <label class="form-check-label">Backup automatico</label>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" @onclick="SaveSettings">
+                <i class="bi bi-save"></i> Salva Impostazioni
+            </button>
+            <button class="btn btn-secondary ms-2" @onclick="ResetSettings">
+                <i class="bi bi-arrow-counterclockwise"></i> Annulla
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string companyName = "La Mia Azienda SRL";
+    private string companyEmail = "info@miaazienda.it";
+    private string companyPhone = "+39 123 456 7890";
+    private string companyVat = "IT12345678901";
+    private bool enableNotifications = true;
+    private bool enableAutoBackup = false;
+
+    private async Task SaveSettings()
+    {
+        // Qui salvi le impostazioni nel database o nel localStorage
+        await Task.Delay(500); // Simula salvataggio
+        
+        // Mostra un messaggio di successo (opzionale)
+        // Puoi usare un servizio di notifica o un alert
+    }
+
+    private void ResetSettings()
+    {
+        // Resetta i valori ai default
+        companyName = "La Mia Azienda SRL";
+        companyEmail = "info@miaazienda.it";
+        companyPhone = "+39 123 456 7890";
+        companyVat = "IT12345678901";
+        enableNotifications = true;
+        enableAutoBackup = false;
+    }
+}

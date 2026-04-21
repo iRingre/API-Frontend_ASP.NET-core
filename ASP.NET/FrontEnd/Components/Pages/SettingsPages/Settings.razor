@@ -1,5 +1,7 @@
 @page "/settings"
 @using Microsoft.AspNetCore.Authorization
+@rendermode InteractiveServer
+@inject IJSRuntime JS
 @attribute [Authorize]
 
 <PageTitle>Impostazioni | Gestionale</PageTitle>
@@ -70,8 +72,7 @@
         // Qui salvi le impostazioni nel database o nel localStorage
         await Task.Delay(500); // Simula salvataggio
         
-        // Mostra un messaggio di successo (opzionale)
-        // Puoi usare un servizio di notifica o un alert
+        await JS.InvokeVoidAsync("alert", "Sicuro di voler salvare?");
     }
 
     private void ResetSettings()

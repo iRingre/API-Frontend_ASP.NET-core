@@ -163,7 +163,6 @@
         isLoading = true;
         try 
         {
-            Tick = new List<Ticket>();
             TickToSave = new List<Ticket>();
             TickToDelete = new List<Ticket>();
             Tick = await Http.GetFromJsonAsync<List<Ticket>>("/api/tickets");

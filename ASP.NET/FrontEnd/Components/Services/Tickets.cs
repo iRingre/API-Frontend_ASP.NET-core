@@ -57,8 +57,11 @@ public class Tickets
         using(var transaction = con.BeginTransaction())
         {
             string query = @"
-            UPDATE OR INSERT INTO TICKETS(ID, DATICLIENTE, RICHIEDENTE, DESCRIZIONEDETTAGLIATA, CATEGORIA, URGENZA, ASSEGNATARIO, DATACREAZIONE)
-            VALUES (@Id, @DatiCliente, @Richiedente, @Descrizione, @Categoria, @Urgenza, @Assegnatario, @Datacre)";
+                UPDATE OR INSERT INTO TICKETS
+                (DATICLIENTE, RICHIEDENTE, DESCRIZIONEDETTAGLIATA, CATEGORIA, URGENZA, ASSEGNATARIO, DATACREAZIONE)
+                VALUES
+                (@DatiCliente, @Richiedente, @Descrizione, @Categoria, @Urgenza, @Assegnatario, @Datacre)
+                MATCHING (DATACREAZIONE, RICHIEDENTE, DESCRIZIONEDETTAGLIATA)";
             using(var cmd = new FbCommand(query, con, transaction))
             {
                 foreach (var ticket in saveTickets)
@@ -71,7 +74,6 @@ public class Tickets
                     cmd.Parameters.AddWithValue("@Categoria", ticket.Categoria);
                     cmd.Parameters.AddWithValue("@Urgenza", ticket.Urgenza);
                     cmd.Parameters.AddWithValue("@Assegnatario", ticket.Assegnatario);
-                    cmd.Parameters.AddWithValue("@Id", ticket.Id);
                     cmd.Parameters.AddWithValue("@Datacre",ticket.DataCreazione);
 
                     cmd.ExecuteNonQuery();

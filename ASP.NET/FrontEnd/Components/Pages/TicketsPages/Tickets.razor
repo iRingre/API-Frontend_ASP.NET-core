@@ -7,87 +7,175 @@
 
 <PageTitle>Tickets</PageTitle>
 
-<div class="tickets-container">
+<div class="container-fluid px-4 py-4">
     
-    <div class="page-header">
-        <h3>Gestione Tickets</h3>
-        <button class="fetch-button" @onclick="@OnInitializedAsync">
-            <span>📋</span> Ricarica Tickets
-        </button>
-        <button class="fetch-button" @onclick="@send">
-            <span>✅</span> Salva Tutte le modifiche
-        </button>
-        <button class="fetch-button" @onclick="@NewTicket">
-            <span>➕</span> Aggiungi Ticket
-        </button>
+    <!-- Header Section -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div class="d-flex align-items-center">
+            <div class="rounded-3 bg-primary bg-opacity-10 p-3 me-3">
+                <i class="bi bi-ticket-detailed fs-3 text-primary"></i>
+            </div>
+            <div>
+                <h3 class="fw-bold mb-1" style="color: #2c3e50;">Gestione Tickets</h3>
+                <p class="text-muted mb-0">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Gestisci e monitora tutti i ticket di assistenza
+                </p>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-outline-secondary rounded-3 px-3" @onclick="@OnInitializedAsync">
+                <i class="bi bi-arrow-clockwise me-2"></i>Ricarica Tickets
+            </button>
+            <button class="btn btn-success rounded-3 px-3 shadow-sm" @onclick="@send">
+                <i class="bi bi-check-all me-2"></i>Salva Tutte le Modifiche
+            </button>
+            <button class="btn btn-primary rounded-3 px-4 shadow-sm" @onclick="@NewTicket">
+                <i class="bi bi-plus-circle me-2"></i>Aggiungi Ticket
+            </button>
+        </div>
     </div>
 
-    <div class="table-container">
-        <table class="custom-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Azienda Cliente</th>
-                    <th>Cliente</th>
-                    <th>Oggetto</th>
-                    <th>Stato</th>
-                    <th>Priorità</th>
-                    <th>Assegnato a</th>
-                    <th>Aperto il</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Tick == null || !Tick.Any())
-                {
-                    <tr>
-                        <td colspan="6">
-                            <div class="empty-state">
-                                @if (isLoading)
-                                {
-                                    <div class="loading-state">
-                                        <div class="loading-spinner"></div>
-                                        <span>Caricamento tickets...</span>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <span>Nessun ticket disponibile. Clicca "Carica Tickets" per visualizzarli.</span>
-                                }
-                            </div>
-                        </td>
-                    </tr>
-                }
-                else
-                {
-                    @foreach (var ticket in Tick)
-                    {
+    <!-- Table Section -->
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
                         <tr>
-                            <td>@ticket.Id</td>
-                            <td>@ticket.DatiCliente</td>
-                            <td>@ticket.Richiedente</td>
-                            <td>@ticket.DescrizioneDettagliata</td>
-                            <td>
-                                <span class="status-badge @GetStatusClass(ticket.Categoria)">
-                                    @ticket.Categoria
-                                </span>
-                            </td>
-                            <td>
-                                <span class="priority-badge @GetPriorityClass(ticket.Urgenza)">
-                                    @ticket.Urgenza
-                                </span>
-                            </td>
-                            <td>@ticket.Assegnatario</td>
-                            <td>@ticket.DataCreazione</td>
-                            <td>
-                                <button class="btn btn-primary btn-sm" @onclick="()=>ModificaTicket(ticket)">Modifica</button>
-                                <button class="btn btn-danger btn-sm" @onclick="()=>DeleteTicket(ticket)">Elimina</button>
-                            </td>
+                            <th class="ps-4 py-3 text-secondary fw-semibold" style="font-size: 0.85rem;">
+                                <i class="bi bi-hash me-1"></i>ID
+                            </th>
+                            <th class="py-3 text-secondary fw-semibold" style="font-size: 0.85rem;">
+                                <i class="bi bi-building me-1"></i>AZIENDA CLIENTE
+                            </th>
+                            <th class="py-3 text-secondary fw-semibold" style="font-size: 0.85rem;">
+                                <i class="bi bi-person me-1"></i>CLIENTE
+                            </th>
+                            <th class="py-3 text-secondary fw-semibold" style="font-size: 0.85rem;">
+                                <i class="bi bi-file-text me-1"></i>OGGETTO
+                            </th>
+                            <th class="py-3 text-secondary fw-semibold" style="font-size: 0.85rem;">
+                                <i class="bi bi-flag me-1"></i>STATO
+                            </th>
+                            <th class="py-3 text-secondary fw-semibold" style="font-size: 0.85rem;">
+                                <i class="bi bi-exclamation-triangle me-1"></i>PRIORITÀ
+                            </th>
+                            <th class="py-3 text-secondary fw-semibold" style="font-size: 0.85rem;">
+                                <i class="bi bi-person-check me-1"></i>ASSEGNATO A
+                            </th>
+                            <th class="py-3 text-secondary fw-semibold" style="font-size: 0.85rem;">
+                                <i class="bi bi-calendar me-1"></i>APERTO IL
+                            </th>
+                            <th class="pe-4 py-3 text-secondary fw-semibold text-center" style="font-size: 0.85rem;">
+                                <i class="bi bi-gear me-1"></i>AZIONI
+                            </th>
                         </tr>
-                    }
-                }
-            </tbody>
-        </table>
-        @if (editingTicket != null)
+                    </thead>
+                    <tbody>
+                        @if (Tick == null || !Tick.Any())
+                        {
+                            <tr>
+                                <td colspan="9">
+                                    <div class="text-center py-5">
+                                        @if (isLoading)
+                                        {
+                                            <div class="d-flex flex-column align-items-center">
+                                                <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                                    <span class="visually-hidden">Caricamento...</span>
+                                                </div>
+                                                <p class="text-muted fs-5 fw-light">Caricamento tickets in corso...</p>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex flex-column align-items-center">
+                                                <i class="bi bi-inbox display-1 text-muted mb-3"></i>
+                                                <p class="text-muted fs-5 fw-light mb-2">Nessun ticket disponibile</p>
+                                                <p class="text-muted small">Clicca "Ricarica Tickets" per visualizzarli</p>
+                                            </div>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var ticket in Tick)
+                            {
+                                <tr style="transition: all 0.2s ease;">
+                                    <td class="ps-4">
+                                        <span class="badge bg-light text-dark rounded-pill px-3 py-2">
+                                            #@ticket.Id
+                                        </span>
+                                    </td>
+                                    <td class="fw-medium">@ticket.DatiCliente</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="rounded-circle bg-secondary bg-opacity-10 p-2 me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                                <i class="bi bi-person small text-secondary"></i>
+                                            </div>
+                                            @ticket.Richiedente
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="text-truncate d-inline-block" style="max-width: 200px;" 
+                                              title="@ticket.DescrizioneDettagliata">
+                                            @ticket.DescrizioneDettagliata
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill px-3 py-2 @GetStatusClass(ticket.Categoria)">
+                                            @ticket.Categoria
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill px-3 py-2 @GetPriorityClass(ticket.Urgenza)">
+                                            @if (ticket.Urgenza?.ToLower() == "alta")
+                                            {
+                                                <i class="bi bi-arrow-up-circle me-1"></i>
+                                            }
+                                            else if (ticket.Urgenza?.ToLower() == "media")
+                                            {
+                                                <i class="bi bi-dash-circle me-1"></i>
+                                            }
+                                            else if (ticket.Urgenza?.ToLower() == "bassa")
+                                            {
+                                                <i class="bi bi-arrow-down-circle me-1"></i>
+                                            }
+                                            @ticket.Urgenza
+                                        </span>
+                                    </td>
+                                    <td>@ticket.Assegnatario</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-calendar-date me-2 text-muted"></i>
+                                            @ticket.DataCreazione
+                                        </div>
+                                    </td>
+                                    <td class="pe-4 text-center">
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <button class="btn btn-outline-warning btn-sm rounded-3 px-3" 
+                                                    @onclick="()=>ModificaTicket(ticket)">
+                                                <i class="bi bi-pencil-square me-1"></i>Modifica
+                                            </button>
+                                            <button class="btn btn-outline-danger btn-sm rounded-3 px-3" 
+                                                    @onclick="()=>DeleteTicket(ticket)">
+                                                <i class="bi bi-trash me-1"></i>Elimina
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (editingTicket != null)
         {
             <div class="modal-overlay">
                 <div class="modal-box">
@@ -150,8 +238,6 @@
                 </div>
             </div>
         }
-    </div>
-</div>
 
 @code {
     private bool isLoading = false;

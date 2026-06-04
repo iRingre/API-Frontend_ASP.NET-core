@@ -65,8 +65,8 @@
 
 .fetch-button:focus {
     outline: none;
-    ring: 2px solid var(--primary-color);
-    ring-offset: 2px;
+    kerning: 2px solid var(--primary-color);
+    offset-path: 2px;
 }
 
 /* Stile della tabella */

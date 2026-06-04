@@ -1,0 +1,213 @@
+@page "/orders"
+@attribute [Authorize]
+@rendermode InteractiveServer
+<PageTitle>Ordini</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">
+                    <i class="bi bi-cart-check me-2"></i>Ordini Clienti
+                </h2>
+                <button class="btn btn-primary" onclick="showCreateModal()">
+                    <i class="bi bi-plus-circle me-1"></i>Nuovo Ordine
+                </button>
+            </div>
+
+            <!-- Filtri di ricerca -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Cliente</label>
+                            <select class="form-select" id="filterCustomer">
+                                <option value="">Tutti i clienti</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Stato</label>
+                            <select class="form-select" id="filterStatus">
+                                <option value="">Tutti gli stati</option>
+                                <option value="Pending">In attesa</option>
+                                <option value="Processing">In elaborazione</option>
+                                <option value="Shipped">Spedito</option>
+                                <option value="Delivered">Consegnato</option>
+                                <option value="Cancelled">Annullato</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Data Inizio</label>
+                            <input type="date" class="form-control" id="filterStartDate" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Data Fine</label>
+                            <input type="date" class="form-control" id="filterEndDate" />
+                        </div>
+                        <div class="col-md-1 d-flex align-items-end">
+                            <button class="btn btn-outline-secondary w-100" onclick="resetFilters()">
+                                <i class="bi bi-arrow-repeat"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabella Ordini -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="ordersTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID Ordine</th>
+                                    <th>Cliente</th>
+                                    <th>Data Ordine</th>
+                                    <th>Totale</th>
+                                    <th>Stato</th>
+                                    <th>Pagamento</th>
+                                    <th class="text-end">Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <!-- Popolato dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Paginazione -->
+                    <nav aria-label="Navigazione pagine">
+                        <ul class="pagination justify-content-center" id="pagination">
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Nuovo/Modifica Ordine -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderModalTitle">Nuovo Ordine</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm">
+                    <input type="hidden" id="orderId" />
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Cliente *</label>
+                            <select class="form-select" id="customerId" required>
+                                <option value="">Seleziona cliente...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Data Ordine *</label>
+                            <input type="date" class="form-control" id="orderDate" required />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Stato</label>
+                            <select class="form-select" id="orderStatus">
+                                <option value="Pending">In attesa</option>
+                                <option value="Processing">In elaborazione</option>
+                                <option value="Shipped">Spedito</option>
+                                <option value="Delivered">Consegnato</option>
+                                <option value="Cancelled">Annullato</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Prodotti dell'ordine -->
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0">Prodotti</h6>
+                            <button type="button" class="btn btn-sm btn-success" onclick="addProductRow()">
+                                <i class="bi bi-plus"></i> Aggiungi Prodotto
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm" id="orderProducts">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40%">Prodotto</th>
+                                            <th style="width: 15%">Quantità</th>
+                                            <th style="width: 15%">Prezzo Unitario</th>
+                                            <th style="width: 15%">Sconto %</th>
+                                            <th style="width: 10%">Totale</th>
+                                            <th style="width: 5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="orderProductsBody">
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="3" class="text-end fw-bold">Totale Ordine:</td>
+                                            <td colspan="2" class="text-end">
+                                                <span id="orderTotal" class="fw-bold fs-5">€0.00</span>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Metodo di Pagamento</label>
+                            <select class="form-select" id="paymentMethod">
+                                <option value="CreditCard">Carta di Credito</option>
+                                <option value="BankTransfer">Bonifico Bancario</option>
+                                <option value="PayPal">PayPal</option>
+                                <option value="Cash">Contanti</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Stato Pagamento</label>
+                            <select class="form-select" id="paymentStatus">
+                                <option value="Pending">In attesa</option>
+                                <option value="Paid">Pagato</option>
+                                <option value="Refunded">Rimborsato</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Indirizzo Spedizione</label>
+                            <input type="text" class="form-control" id="shippingAddress" placeholder="Via, Città, CAP..." />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Note</label>
+                        <textarea class="form-control" id="notes" rows="3" placeholder="Note aggiuntive..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                <button type="button" class="btn btn-primary" onclick="saveOrder()">
+                    <i class="bi bi-save me-1"></i>Salva Ordine
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Dettaglio Ordine -->
+<div class="modal fade" id="orderDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dettaglio Ordine #<span id="detailOrderId"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="orderDetailContent">
+            </div>
+        </div>
+    </div>
+</div>

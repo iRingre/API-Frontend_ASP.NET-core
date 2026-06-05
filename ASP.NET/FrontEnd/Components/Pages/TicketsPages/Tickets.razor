@@ -125,24 +125,12 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="badge rounded-pill px-3 py-2 @GetStatusClass(ticket.Categoria)">
+                                        <span class="status-badge @GetStatusClass(ticket.Categoria)">
                                             @ticket.Categoria
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="badge rounded-pill px-3 py-2 @GetPriorityClass(ticket.Urgenza)">
-                                            @if (ticket.Urgenza?.ToLower() == "alta")
-                                            {
-                                                <i class="bi bi-arrow-up-circle me-1"></i>
-                                            }
-                                            else if (ticket.Urgenza?.ToLower() == "media")
-                                            {
-                                                <i class="bi bi-dash-circle me-1"></i>
-                                            }
-                                            else if (ticket.Urgenza?.ToLower() == "bassa")
-                                            {
-                                                <i class="bi bi-arrow-down-circle me-1"></i>
-                                            }
+                                        <span class="priority-badge @GetPriorityClass(ticket.Urgenza)">
                                             @ticket.Urgenza
                                         </span>
                                     </td>
@@ -180,7 +168,7 @@
             <div class="modal-overlay">
                 <div class="modal-box">
                 
-                    @if(editingTicket.Id > Tick!.Count){<h4>Crea Ticket @editingTicket.Id</h4>}
+                    @if(editingTicket.Id == 0){<h4>Crea Ticket</h4>}
                     else {<h4>Modifica Ticket @editingTicket.Id</h4>}
 
                     <EditForm Model="editingTicket">
@@ -251,8 +239,9 @@
         {
             TickToSave = new List<Ticket>();
             TickToDelete = new List<Ticket>();
+            Tick = new List<Ticket>();
+            await Task.Delay(300);
             Tick = await Http.GetFromJsonAsync<List<Ticket>>("/api/tickets");
-            //await Task.Delay(1000);
             
         }
         finally
@@ -296,6 +285,7 @@
         }else {
             Console.WriteLine("non c'è stata alcuna eliminazione nei tickets");
         }
+        await OnInitializedAsync();
     }
 
     private void ModificaTicket(Ticket ticket)
@@ -354,7 +344,7 @@
     private void NewTicket(){
         editingTicket = new Ticket(
 
-            Tick!.Last().Id+1,
+            0,
             "",
             "",
             "",

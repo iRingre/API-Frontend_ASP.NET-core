@@ -56,18 +56,52 @@ public class Tickets
 
         using(var transaction = con.BeginTransaction())
         {
-            string query = @"
-                UPDATE OR INSERT INTO TICKETS
-                (DATICLIENTE, RICHIEDENTE, DESCRIZIONEDETTAGLIATA, CATEGORIA, URGENZA, ASSEGNATARIO, DATACREAZIONE)
-                VALUES
-                (@DatiCliente, @Richiedente, @Descrizione, @Categoria, @Urgenza, @Assegnatario, @Datacre)
-                MATCHING (DATACREAZIONE, RICHIEDENTE, DESCRIZIONEDETTAGLIATA)";
+            string query = @"";
             using(var cmd = new FbCommand(query, con, transaction))
             {
                 foreach (var ticket in saveTickets)
                 {
+                    if (ticket.Id > 0)
+                    {
+                        cmd.CommandText = @"
+                            UPDATE TICKETS
+                            SET
+                                DATICLIENTE = @DatiCliente,
+                                RICHIEDENTE = @Richiedente,
+                                DESCRIZIONEDETTAGLIATA = @Descrizione,
+                                CATEGORIA = @Categoria,
+                                URGENZA = @Urgenza,
+                                ASSEGNATARIO = @Assegnatario,
+                                DATACREAZIONE = @Datacre
+                            WHERE ID = @Id";
+                    }
+                    else
+                    {
+                        cmd.CommandText = @"
+                            INSERT INTO
+                              TICKETS (
+                                DATICLIENTE,
+                                RICHIEDENTE,
+                                DESCRIZIONEDETTAGLIATA,
+                                CATEGORIA,
+                                URGENZA,
+                                ASSEGNATARIO,
+                                DATACREAZIONE
+                              )
+                            VALUES
+                              (
+                                @DatiCliente,
+                                @Richiedente,
+                                @Descrizione,
+                                @Categoria,
+                                @Urgenza,
+                                @Assegnatario,
+                                @Datacre
+                              )";
+                    }
                     cmd.Parameters.Clear();
 
+                    cmd.Parameters.AddWithValue("@Id",ticket.Id);
                     cmd.Parameters.AddWithValue("@DatiCliente", ticket.DatiCliente);
                     cmd.Parameters.AddWithValue("@Richiedente", ticket.Richiedente);
                     cmd.Parameters.AddWithValue("@Descrizione", ticket.DescrizioneDettagliata);

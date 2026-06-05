@@ -337,7 +337,7 @@
     width: 100%;
     height: 100%;
 
-    background: rgba(0, 0, 0, 0.5); /* sfondo scuro */
+    background: rgba(0, 0, 0, 0.5);
 
     display: flex;
     justify-content: center;
@@ -347,7 +347,7 @@
 }
 
 .modal-box {
-    background-color: #023C56; /* stesso blu */
+    background-color: #023C56;
     padding: 25px;
     border-radius: 18px;
     width: 420px;
@@ -415,7 +415,6 @@
     transition: all 0.2s ease;
 }
 
-/* effetto focus più figo */
 .modal-box input:focus,
 .modal-box select:focus,
 .modal-box textarea:focus {
@@ -424,7 +423,6 @@
     box-shadow: 0 0 8px rgba(3,197,197,0.5);
 }
 
-/* effetto hover leggero */
 .modal-box input:hover,
 .modal-box select:hover,
 .modal-box textarea:hover {
@@ -433,7 +431,7 @@
 
 .textarea-big {
     min-height: 120px;
-    resize: vertical; /* puoi allungarla */
+    resize: vertical;
 }
 .form-group label {
     color: #e0e0e0;

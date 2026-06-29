@@ -43,9 +43,6 @@
                 <table class="table table-hover align-middle mb-0">
                     <thead class="bg-light">
                         <tr>
-                            <th class="ps-4 py-3 text-secondary fw-semibold" style="font-size: 0.85rem;">
-                                <i class="bi bi-hash me-1"></i>ID
-                            </th>
                             <th class="py-3 text-secondary fw-semibold" style="font-size: 0.85rem;">
                                 <i class="bi bi-building me-1"></i>AZIENDA CLIENTE
                             </th>
@@ -104,11 +101,6 @@
                             @foreach (var ticket in Tick)
                             {
                                 <tr style="transition: all 0.2s ease;">
-                                    <td class="ps-4">
-                                        <span class="badge bg-light text-dark rounded-pill px-3 py-2">
-                                            #@ticket.Id
-                                        </span>
-                                    </td>
                                     <td class="fw-medium">@ticket.DatiCliente</td>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -168,7 +160,7 @@
             <div class="modal-overlay">
                 <div class="modal-box">
                 
-                    @if(editingTicket.Id == 0){<h4>Crea Ticket</h4>}
+                    @if(editingTicket.Id <= 0){<h4>Crea Ticket</h4>}
                     else {<h4>Modifica Ticket @editingTicket.Id</h4>}
 
                     <EditForm Model="editingTicket">
@@ -307,19 +299,9 @@
     }
 
     private void SaveSingleTicket(int id){
-        var t = new Ticket(
-                    editingTicket!.Id,
-                    editingTicket.Assegnatario,
-                    editingTicket.Categoria,
-                    editingTicket.DatiCliente,
-                    editingTicket.DescrizioneDettagliata,
-                    editingTicket.Richiedente,
-                    editingTicket.Urgenza,
-                    editingTicket.DataCreazione
-                );
         for(int i = 0; i< Tick!.Count; i++){
             if(Tick[i].Id == id){
-                Tick[i] = t;
+                Tick[i] = editingTicket!;
                 if(TickToSave!.Count>0){
                     for(int j = 0; j< TickToSave!.Count; j++){
                         if(TickToSave[j].Id == Tick[i].Id){
@@ -335,16 +317,16 @@
             }
         }
 
-        TickToSave!.Add(t);
-        Tick.Add(t);
+        TickToSave!.Add(editingTicket!);
+        Tick.Add(editingTicket!);
         editingTicket = null;
         return;
     }
 
     private void NewTicket(){
+        var id = Tick!.Min(t => t.Id);
         editingTicket = new Ticket(
-
-            0,
+            id>0 ? 0 : id-1,
             "",
             "",
             "",

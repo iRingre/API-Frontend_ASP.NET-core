@@ -27,18 +27,18 @@ public class Tickets
         {
             while (reader.Read())
             {
-                Ticket t = new Ticket
-                (
-                    reader.GetInt32(0),
-                    reader.IsDBNull(1) ? string.Empty : reader.GetString(1),
-                    reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
-                    reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
-                    reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
-                    reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
-                    reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
-                    reader.GetDateTime(7)
+                ListOfTickets.Add(new Ticket
+                    (
+                        reader.GetInt32(0),
+                        reader.IsDBNull(1) ? string.Empty : reader.GetString(1),
+                        reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                        reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
+                        reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
+                        reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
+                        reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
+                        reader.GetDateTime(7)
+                    )
                 );
-                ListOfTickets.Add(t);
             }
             
         }

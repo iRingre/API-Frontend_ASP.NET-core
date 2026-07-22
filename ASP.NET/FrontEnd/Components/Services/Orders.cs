@@ -17,7 +17,7 @@ public class Orders
         List<Order> ListOfOrders = new List<Order>();
         var con = new FbConnection(_provider.GetConnectionString());
         string sql = @"SELECT ID, NUMEROORDINE, DATAORDINE, CLIENTEID, STATO, TOTALE, NOTE, CREATOIL, MODIFICATOIL
-                        ORDER BY ID ";
+                        FROM ORDINI ORDER BY ID ";
         var cmd = new FbCommand(sql, con);
         con.Open();
 

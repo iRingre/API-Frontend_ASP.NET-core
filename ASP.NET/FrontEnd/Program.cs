@@ -45,6 +45,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<Tickets>();
 builder.Services.AddScoped<Clients>();
+builder.Services.AddScoped<Orders>();
 /*------------------------------------------------------------------------------------------*/
 
 

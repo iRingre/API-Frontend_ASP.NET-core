@@ -1,6 +1,9 @@
 @page "/orders"
 @attribute [Authorize]
 @rendermode InteractiveServer
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Nav
+@inject HttpClient Http
 <PageTitle>Ordini</PageTitle>
 
 <div class="container-fluid">
@@ -58,23 +61,63 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover" id="ordersTable">
-                            <thead class="table-light">
+                            <tbody>
+                            @if (ListOfOrders != null && ListOfOrders.Any())
+                            {
+                                @foreach (var order in ListOfOrders)
+                                {
+                                    <tr>
+                                        <td>@order.Numeroordine</td>
+                                        <td>@order.Dataordine.ToString("dd/MM/yyyy")</td>
+                                        <td>@order.Clienteid</td>
+                                        <td>
+                                            @switch (order.Stato)
+                                            {
+                                                case 0:
+                                                    <span class="badge bg-secondary">Bozza</span>
+                                                    break;
+                                                case 1:
+                                                    <span class="badge bg-warning text-dark">In lavorazione</span>
+                                                    break;
+                                                case 2:
+                                                    <span class="badge bg-success">Completato</span>
+                                                    break;
+                                                case 3:
+                                                    <span class="badge bg-danger">Annullato</span>
+                                                    break;
+                                                default:
+                                                    <span class="badge bg-dark">Sconosciuto</span>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td class="text-end">@order.Totale.ToString("C2")</td>
+                                        <td>@order.Note</td>
+                                        <td>@order.Creatoil.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>@order.Modificatoil.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-outline-primary me-1"
+                                                    @onclick="() => EditOrder(order.Id)">
+                                                <i class="bi bi-pencil">Modifica</i>
+                                            </button>
+
+                                            <button class="btn btn-sm btn-outline-danger"
+                                                    @onclick="() => DeleteOrder(order.Id)">
+                                                <i class="bi bi-trash">Elimina</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
                                 <tr>
-                                    <th>ID Ordine</th>
-                                    <th>Cliente</th>
-                                    <th>Data Ordine</th>
-                                    <th>Totale</th>
-                                    <th>Stato</th>
-                                    <th>Pagamento</th>
-                                    <th class="text-end">Azioni</th>
+                                    <td colspan="9" class="text-center">
+                                        Nessun ordine presente.
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody id="ordersTableBody">
-                                <!-- Popolato dinamicamente -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
+                            }
+                        </tbody>
+                    </table>
                     <!-- Paginazione -->
                     <nav aria-label="Navigazione pagine">
                         <ul class="pagination justify-content-center" id="pagination">
@@ -84,6 +127,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!-- Modal Nuovo/Modifica Ordine -->
@@ -214,5 +258,17 @@
 
 
 @code{
+    List<Order> ListOfOrders = new List<Order>();
     
+     protected override async Task OnInitializedAsync()
+    {
+        ListOfOrders = await Http.GetFromJsonAsync<List<Order>>("/api/orders");
+    }
+
+    private void EditOrder(int id){
+
+    }
+    private void DeleteOrder(int id){
+
+    }
 }
